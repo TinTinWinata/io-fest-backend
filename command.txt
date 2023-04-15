@@ -1,0 +1,11 @@
+docker compose up -d
+-> run postgresql docker
+
+npx prisma db push
+-> migrate model to database
+
+npx prisma migrate dev --name {migration_name}
+-> migrate model to database and makes the sql file
+
+npm run dev
+-> run the server
