@@ -11,18 +11,18 @@ datasource db {
 }
 
 model User {
-  id                String            @id @default(uuid())
-  email             String            @unique
-  username          String            @unique
-  name              String
-  password          String
-  isActive          Boolean           @default(false)
-  posts             Post[]
-  following         UserFollow[]      @relation("following")
-  followers         UserFollow[]      @relation("followers")
-  likedPosts        PostLike[]
-  likedPostComments PostCommentLike[]
-  activationId      ActivationLink?
+  id                 String             @id @default(uuid())
+  email              String             @unique
+  username           String             @unique
+  name               String
+  password           String
+  isActive           Boolean            @default(false)
+  forums             Forum[]
+  following          UserFollow[]       @relation("following")
+  followers          UserFollow[]       @relation("followers")
+  likedForums        ForumLike[]
+  likedForumComments ForumCommentLike[]
+  activationId       ActivationLink?
 
   @@map("users")
 }
@@ -46,45 +46,46 @@ model UserFollow {
   @@map("user_follows")
 }
 
-model Post {
-  id        String        @id @default(uuid())
-  caption   String
-  creator   User          @relation(fields: [userId], references: [id])
-  userId    String
-  createdAt DateTime      @default(now())
-  likes     PostLike[]
-  comments  PostComment[]
+model Forum {
+  id          String         @id @default(uuid())
+  title       String
+  description String
+  creator     User           @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime       @default(now())
+  likes       ForumLike[]
+  comments    ForumComment[]
 
-  @@map("posts")
+  @@map("forums")
 }
 
-model PostLike {
-  liker     User   @relation(fields: [userId], references: [id])
-  likedPost Post   @relation(fields: [postId], references: [id])
-  userId    String
-  postId    String
+model ForumLike {
+  liker      User   @relation(fields: [userId], references: [id])
+  likedForum Forum  @relation(fields: [forumId], references: [id])
+  userId     String
+  forumId    String
 
-  @@id([userId, postId])
-  @@map("post_likes")
+  @@id([userId, forumId])
+  @@map("forum_likes")
 }
 
-model PostComment {
-  id              String            @id @default(uuid())
-  comment         String
-  commentedPost   Post              @relation(fields: [postId], references: [id])
-  postId          String
-  createdAt       DateTime          @default(now())
-  PostCommentLike PostCommentLike[]
+model ForumComment {
+  id               String             @id @default(uuid())
+  comment          String
+  commentedForum   Forum              @relation(fields: [ForumId], references: [id])
+  ForumId          String
+  createdAt        DateTime           @default(now())
+  forumCommentLike ForumCommentLike[]
 
-  @@map("post_comments")
+  @@map("forum_comments")
 }
 
-model PostCommentLike {
-  liker            User        @relation(fields: [userId], references: [id])
-  likedPostComment PostComment @relation(fields: [postCommentId], references: [id])
-  userId           String
-  postCommentId    String
+model ForumCommentLike {
+  liker             User         @relation(fields: [userId], references: [id])
+  likedForumComment ForumComment @relation(fields: [forumCommentId], references: [id])
+  userId            String
+  forumCommentId    String
 
-  @@id([userId, postCommentId])
-  @@map("post_comment_likes")
+  @@id([userId, forumCommentId])
+  @@map("forum_comment_likes")
 }
