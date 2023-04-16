@@ -1,7 +1,11 @@
-import express, { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import jwt, { Secret } from "jsonwebtoken";
 
-export const JWT_SECRET: Secret = "REJTJSGANTENGBANGET";
+export const accessTokenSecret: Secret =
+  process.env.ACCESS_TOKEN_SECRET || "mbVBFoeO40bcE3AilczmnM7IcQY0xWQwsC7Hbuqu";
+export const refreshTokenSecret: Secret =
+  process.env.REFRESH_TOKEN_SECRET ||
+  "CkwmqZBk2e8HPkwsxi0lbZrvqej7BYpmNmTvJZTL";
 
 export const isAuthenticated = (
   req: Request,
@@ -9,15 +13,19 @@ export const isAuthenticated = (
   next: NextFunction
 ) => {
   try {
-    const token = req.cookies.access_token;
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
     if (!token) {
-      return res.sendStatus(403);
+      return res.sendStatus(401);
     }
     try {
-      const data = jwt.verify(token, JWT_SECRET);
-      req.body.user = data.toString();
-      console.log(data.toString());
-      return next();
+      const data = jwt.verify(token, accessTokenSecret);
+      if (typeof data !== "string") {
+        req.body.id = data.id;
+        req.body.email = data.email;
+      }
+      next();
     } catch {
       return res.sendStatus(403);
     }

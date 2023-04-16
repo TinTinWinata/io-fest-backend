@@ -3,6 +3,5 @@ import * as userController from "../controllers/userController";
 import { isAuthenticated } from "../middlewares/authMiddleware";
 
 export default (router: express.Router) => {
-  router.get("/user/:id", isAuthenticated, userController.getUserByID);
-  router.post("/createUser", userController.createUser);
+  router.get("/user/:id", isAuthenticated, userController.getUserById);
 };

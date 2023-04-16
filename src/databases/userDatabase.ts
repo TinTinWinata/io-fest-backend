@@ -1,30 +1,21 @@
 import DBClient from "../../prisma/prismaClient";
-import { User } from "../models/model";
+import { User } from "@prisma/client";
 
 const prisma = DBClient.getInstance().prisma;
 
-export const getUserByID = async (id: string) => {
+export const getUserById = async (id: string) => {
   const user = await prisma.user.findUnique({ where: { id: id } });
-  if (user) {
-    return user;
-  }
-  return null;
+  return user;
 };
 
 export const getUserByEmail = async (email: string) => {
   const user = await prisma.user.findUnique({ where: { email: email } });
-  if (user) {
-    return user;
-  }
-  return null;
+  return user;
 };
 
 export const getUserByUsername = async (username: string) => {
   const user = await prisma.user.findUnique({ where: { username: username } });
-  if (user) {
-    return user;
-  }
-  return null;
+  return user;
 };
 
 export const createUser = async (user: User) => {
@@ -32,4 +23,24 @@ export const createUser = async (user: User) => {
     data: { ...user },
   });
   return result;
+};
+
+export const activateUser = async (id: string) => {
+  const user = await prisma.user.update({
+    where: { id: id },
+    data: {
+      isActive: true,
+    },
+  });
+  return user;
+};
+
+export const updateRefreshToken = async (id: string, refreshToken: string) => {
+  const user = await prisma.user.update({
+    where: { id: id },
+    data: {
+      refreshToken: refreshToken,
+    },
+  });
+  return user;
 };

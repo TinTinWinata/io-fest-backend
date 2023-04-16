@@ -1,9 +1,19 @@
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
 import { compare, hash } from "bcrypt";
-import express, { Request, Response } from "express";
-import { getUserByEmail, getUserByUsername } from "../databases/userDatabase";
+import { Request, Response } from "express";
+import {
+  getUserByEmail,
+  getUserByUsername,
+  updateRefreshToken,
+} from "../databases/userDatabase";
 import { createUser } from "../databases/userDatabase";
-import { JWT_SECRET } from "../middlewares/authMiddleware";
+import {
+  accessTokenSecret,
+  refreshTokenSecret,
+} from "../middlewares/authMiddleware";
+import { sendEmail } from "../helpers/helper";
+import { createActivationLink } from "../databases/activationLinkDatabase";
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -13,28 +23,47 @@ export const login = async (req: Request, res: Response) => {
       return res.sendStatus(400);
     }
 
-    const user = await getUserByEmail(email);
+    var user = await getUserByEmail(email);
 
     if (!user) {
       return res.sendStatus(400);
     }
 
-    const userPassword = await compare(password, user.password);
+    const match = await compare(password, user.password);
 
-    if (!userPassword) {
+    if (!match) {
       return res.sendStatus(403);
     }
 
-    const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-      expiresIn: "15m",
-    });
+    if (!user.isActive) {
+      return res.sendStatus(403);
+    }
+
+    const accessToken = jwt.sign(
+      { id: user.id, email: user.email },
+      accessTokenSecret,
+      {
+        expiresIn: "15m",
+      }
+    );
+
+    const refreshToken = jwt.sign(
+      { id: user.id, email: user.email },
+      refreshTokenSecret,
+      {
+        expiresIn: "15m",
+      }
+    );
+
+    user = await updateRefreshToken(user.id, refreshToken);
 
     return res
-      .cookie("access_token", token, {
+      .cookie("refreshToken", refreshToken, {
         httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000,
       })
       .status(200)
-      .json({ user: user, token: token })
+      .json({ user: user, accessToken: accessToken })
       .end();
   } catch (error) {
     console.log(error);
@@ -64,7 +93,19 @@ export const register = async (req: Request, res: Response) => {
       username: username,
       name: name,
       password: hashedPassword,
+      id: uuidv4(),
+      isActive: false,
+      profilePicture: "",
+      refreshToken: "",
     });
+
+    const activationLink = await createActivationLink({
+      id: uuidv4(),
+      userId: user.id,
+      expirationDate: new Date(Date.now() + 3600 * 1000 * 2),
+    });
+
+    await sendEmail(email, activationLink.id);
 
     return res.status(200).json(user).end();
   } catch (error) {

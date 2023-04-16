@@ -11,18 +11,16 @@ datasource db {
 }
 
 model User {
-  id                 String             @id @default(uuid())
-  email              String             @unique
-  username           String             @unique
-  name               String
-  password           String
-  isActive           Boolean            @default(false)
-  forums             Forum[]
-  following          UserFollow[]       @relation("following")
-  followers          UserFollow[]       @relation("followers")
-  likedForums        ForumLike[]
-  likedForumComments ForumCommentLike[]
-  activationId       ActivationLink?
+  id             String          @id @default(uuid())
+  email          String          @unique
+  username       String          @unique
+  name           String
+  password       String
+  isActive       Boolean         @default(false)
+  profilePicture String?
+  forums         Forum[]         @relation("postCreator")
+  activationLink ActivationLink?
+  refreshToken   String?
 
   @@map("users")
 }
@@ -36,56 +34,44 @@ model ActivationLink {
   @@map("activation_links")
 }
 
-model UserFollow {
-  userId          User   @relation("following", fields: [userFollowingId], references: [id])
-  followId        User   @relation("followers", fields: [userFollowerId], references: [id])
-  userFollowingId String
-  userFollowerId  String
-
-  @@id([userFollowingId, userFollowerId])
-  @@map("user_follows")
-}
-
 model Forum {
   id          String         @id @default(uuid())
   title       String
   description String
-  creator     User           @relation(fields: [userId], references: [id])
+  creator     User           @relation("postCreator", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId      String
   createdAt   DateTime       @default(now())
-  likes       ForumLike[]
+  updatedAt   DateTime       @updatedAt
   comments    ForumComment[]
+  seen        Int
+  attachments Attachment[]
 
   @@map("forums")
 }
 
-model ForumLike {
-  liker      User   @relation(fields: [userId], references: [id])
-  likedForum Forum  @relation(fields: [forumId], references: [id])
-  userId     String
-  forumId    String
+model Attachment {
+  attachedForum Forum          @relation(fields: [forumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  forumId       String
+  path          String
+  type          AttachmentType
 
-  @@id([userId, forumId])
-  @@map("forum_likes")
+  @@id([forumId, path])
+  @@map("attachments")
+}
+
+enum AttachmentType {
+  Video @map("Video")
+  Image @map("Image")
+
+  @@map("attachment_types")
 }
 
 model ForumComment {
-  id               String             @id @default(uuid())
-  comment          String
-  commentedForum   Forum              @relation(fields: [ForumId], references: [id])
-  ForumId          String
-  createdAt        DateTime           @default(now())
-  forumCommentLike ForumCommentLike[]
+  id             String   @id @default(uuid())
+  comment        String
+  commentedForum Forum    @relation(fields: [ForumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ForumId        String
+  createdAt      DateTime @default(now())
 
   @@map("forum_comments")
-}
-
-model ForumCommentLike {
-  liker             User         @relation(fields: [userId], references: [id])
-  likedForumComment ForumComment @relation(fields: [forumCommentId], references: [id])
-  userId            String
-  forumCommentId    String
-
-  @@id([userId, forumCommentId])
-  @@map("forum_comment_likes")
 }

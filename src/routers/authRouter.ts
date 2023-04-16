@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Router} from "express";
 import * as authController from "../controllers/authController";
 
 export default (router: express.Router) => {

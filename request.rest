@@ -1,0 +1,23 @@
+###
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "addisonrenaldi@gmail.com",
+    "password": "asd123"
+}
+
+###
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "addisonrenaldi@gmail.com",
+    "name": "renaja",
+    "username": "renaja",
+    "password": "asd123"
+}
+
+###
+GET http://localhost:3000/user/9f67f149-cf5e-4ee0-890e-1a6eb71ee1d4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwiaWF0IjoxNjgxNjY0OTM3LCJleHAiOjE2ODE2NjU4Mzd9.Hg80miPNuQFUZxdwp9CrGTLPDilTAoE18Tsm9c9nAps
