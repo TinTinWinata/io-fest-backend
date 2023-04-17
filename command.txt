@@ -1,6 +1,9 @@
 docker compose up -d
 -> run postgresql docker
 
+docker-compose down -v
+-> run if the error is The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 14.5 (Debian 14.5-2.pgdg110+2)
+
 npx prisma db push
 -> migrate model to database
 

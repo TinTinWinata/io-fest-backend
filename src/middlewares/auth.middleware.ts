@@ -17,20 +17,22 @@ export const isAuthenticated = (
     const token = authHeader && authHeader.split(" ")[1];
 
     if (!token) {
-      return res.sendStatus(401);
+      return res.status(401);
     }
-    try {
-      const data = jwt.verify(token, accessTokenSecret);
-      if (typeof data !== "string") {
-        req.body.id = data.id;
-        req.body.email = data.email;
+    const decode = jwt.verify(token, accessTokenSecret);
+
+    if (decode) {
+      if (typeof decode !== "string") {
+        // @ts-ignore
+        req.user = decode;
       }
-      next();
-    } catch {
-      return res.sendStatus(403);
+    } else {
+      return res.send(401);
     }
+
+    next();
   } catch (error) {
     console.log(error);
-    return res.sendStatus(400);
+    return res.status(400);
   }
 };

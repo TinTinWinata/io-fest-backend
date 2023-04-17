@@ -18,6 +18,13 @@ export const getUserByUsername = async (username: string) => {
   return user;
 };
 
+export const getUserByRefreshToken = async (refreshToken: string) => {
+  const user = await prisma.user.findFirst({
+    where: { refreshToken: refreshToken },
+  });
+  return user;
+};
+
 export const createUser = async (user: User) => {
   const result = await prisma.user.create({
     data: { ...user },
@@ -40,6 +47,16 @@ export const updateRefreshToken = async (id: string, refreshToken: string) => {
     where: { id: id },
     data: {
       refreshToken: refreshToken,
+    },
+  });
+  return user;
+};
+
+export const clearRefreshToken = async (id: string) => {
+  const user = await prisma.user.update({
+    where: { id: id },
+    data: {
+      refreshToken: "",
     },
   });
   return user;

@@ -13,7 +13,7 @@ export const sendEmail = async (email: string, activationLinkId: string) => {
   const mailOptions: MailOptions = {
     from: process.env.EMAIL_SENDER,
     to: email,
-    subject: "CariTahu",
+    subject: "CariTahu - Account Verification",
     html: `<div id=":15g" class="a3s aiL msg-2564905172801731076">
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tbody>
