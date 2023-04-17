@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { VerifyErrors } from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { compare, hash } from "bcrypt";
 import { Request, Response } from "express";
@@ -15,30 +15,30 @@ import {
   refreshTokenSecret,
 } from "../middlewares/auth.middleware";
 import { sendEmail } from "../facades/helper";
-import { createActivationLink } from "../databases/activation.link,database";
+import { createActivationLink } from "../databases/activation.link.database";
+import { Jwt } from "jsonwebtoken";
+import { JwtPayload } from "jsonwebtoken";
 
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-      return res.status(400);
-    }
-
     var user = await getUserByEmail(email);
 
     if (!user) {
-      return res.status(400);
+      return res.status(400).json({ errors: ["email not found!"] });
     }
 
     const match = await compare(password, user.password);
 
     if (!match) {
-      return res.status(403);
+      return res.status(403).json({ errors: ["wrong credentials!"] });
     }
 
     if (!user.isActive) {
-      return res.status(403);
+      return res
+        .status(403)
+        .json({ errors: ["please verify your account before proceeding!"] });
     }
 
     const accessToken = jwt.sign(
@@ -53,7 +53,7 @@ export const login = async (req: Request, res: Response) => {
       { id: user.id, email: user.email },
       refreshTokenSecret,
       {
-        expiresIn: "15m",
+        expiresIn: "1d",
       }
     );
 
@@ -68,7 +68,7 @@ export const login = async (req: Request, res: Response) => {
       .json({ user: user, accessToken: accessToken });
   } catch (error) {
     console.log(error);
-    return res.status(400);
+    return res.status(400).json({ errors: ["error occurred!"] });
   }
 };
 
@@ -76,14 +76,17 @@ export const register = async (req: Request, res: Response) => {
   try {
     const { email, name, username, password } = req.body;
 
-    if (!email || !name || !username || !password) {
-      return res.status(400);
-    }
-
     const validateEmail = await getUserByEmail(email);
     const validateUsername = await getUserByUsername(username);
-    if (validateEmail || validateUsername) {
-      return res.status(400);
+
+    if (validateEmail) {
+      return res.status(400).json({ errors: ["email you provided is taken!"] });
+    }
+
+    if (validateUsername) {
+      return res
+        .status(400)
+        .json({ errors: ["username you provided is taken!"] });
     }
 
     const saltRounds = 10;
@@ -111,63 +114,66 @@ export const register = async (req: Request, res: Response) => {
     return res.status(200).json(user);
   } catch (error) {
     console.log(error);
-    return res.status(400);
+    return res.status(400).json({ errors: ["error occurred!"] });
   }
 };
 
 export const refreshToken = async (req: Request, res: Response) => {
   try {
     const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) {
-      return res.status(401);
-    }
 
     const user = await getUserByRefreshToken(refreshToken);
 
     if (!user) {
-      return res.status(403);
+      return res.status(403).json({ errors: ["user not found!"] });
     }
 
-    const decode = jwt.verify(refreshToken, refreshTokenSecret);
-
-    if (decode) {
-      const accessToken = jwt.sign(
-        { id: user.id, email: user.email },
-        accessTokenSecret,
-        {
-          expiresIn: "15m",
+    jwt.verify(
+      refreshToken,
+      refreshTokenSecret,
+      (
+        err: VerifyErrors | null,
+        decode: Jwt | JwtPayload | string | undefined
+      ) => {
+        if (err) {
+          return res.status(400).json({ errors: [err.message] });
         }
-      );
-
-      res.status(200).json({ user: user, accessToken: accessToken });
-    } else {
-      return res.status(401);
-    }
+        if (decode) {
+          const accessToken = jwt.sign(
+            { id: user.id, email: user.email },
+            accessTokenSecret,
+            {
+              expiresIn: "15m",
+            }
+          );
+          res.status(200).json({ user: user, accessToken: accessToken });
+        }
+      }
+    );
   } catch (error) {
     console.log(error);
-    return res.status(400);
+    return res.status(400).json({ errors: ["error occurred!"] });
   }
 };
 
 export const logout = async (req: Request, res: Response) => {
   try {
     const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) {
-      return res.status(401);
-    }
 
     const user = await getUserByRefreshToken(refreshToken);
 
     if (!user) {
-      return res.status(403);
+      return res.status(403).json({ errors: ["user not found!"] });
     }
+
     await clearRefreshToken(user.id);
 
-    res.clearCookie("refreshToken");
-
-    return res.status(200);
+    return res
+      .status(200)
+      .clearCookie("refreshToken")
+      .json({ successes: ["logout successful!"] });
   } catch (error) {
     console.log(error);
-    return res.status(400);
+    return res.status(400).json({ errors: ["error occurred!"] });
   }
 };

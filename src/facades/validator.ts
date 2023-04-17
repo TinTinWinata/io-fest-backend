@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import { body, validationResult } from "express-validator";
+import { body, cookie, validationResult, param } from "express-validator";
 
-export const emptyValidation = (requests: string[]) => {
+export const bodyEmptyValidation = (requests: string[]) => {
   return requests.map((req) => {
     return body(req, `${req} field cannot be empty!`).notEmpty();
   });
 };
 
-export const emailValidation = (requests: string[]) => {
+export const bodyEmailValidation = (requests: string[]) => {
   return requests.map((req) => {
     return body(
       req,
@@ -16,7 +16,7 @@ export const emailValidation = (requests: string[]) => {
   });
 };
 
-export const lengthValidation = (
+export const bodyLengthValidation = (
   requests: string[],
   min: number[],
   max: number[]
@@ -24,12 +24,26 @@ export const lengthValidation = (
   return requests.map((req, i) => {
     return body(
       req,
-      `${req} field must between ${min[i]} and ${max[i]}!`
+      `${req} field must between ${min[i]} and ${max[i]} character(s)!`
     ).isLength({ min: min[i], max: max[i] });
   });
 };
 
-export const bodyValidator = (
+export const cookieEmptyValidation = (requests: string[]) => {
+  return requests.map((req) => {
+    return cookie(req, `${req} cookie not found!`).exists();
+  });
+};
+
+export const paramUUIDValidation = (requests: string[]) => {
+  return requests.map((req) => {
+    return param(req, `${req} param must be in the correct uuid(v4) format!`).isUUID(
+      4
+    );
+  });
+};
+
+export const errorValidator = (
   req: Request,
   res: Response,
   next: NextFunction

@@ -12,15 +12,24 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "email": "renacierr@gmail.com",
+    "email": "renacierr",
     "name": "renaja",
     "username": "renaje",
     "password": "asd123"
 }
 
 ###
-GET http://localhost:3000/users/9f67f149-cf5e-4ee0-890e-1a6eb71ee1d4
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0ODBiZDdmLTVlYWMtNGIwZS1hYjNjLWFiNzdmYmY2YTRlZiIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwiaWF0IjoxNjgxNjkzMzM2LCJleHAiOjE2ODE2OTQyMzZ9.VHP9O7FIPo_KNEQVWR-cH3mjmkZ_4tGrwzEMsQrTPoU
+GET http://localhost:3000/users/9f67f149-cf5e-4ee0-890e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwiaWF0IjoxNjgxNzUyOTQ0LCJleHAiOjE2ODE3NTM4NDR9.XYGTjz9zuSkH3DoXgtOmFOSmal-ymkLxdJanmfkzl2k
+
+###
+PATCH http://localhost:3000/activation-link/ff48d649-00a0-419d-85c3-043fc2d93bbe
+
+### request activation link
+POST  http://localhost:3000/activation-link/generate/9f67f149-cf5e-4ee0-890e-1a6eb71ee1d4
 
 ### request token
 GET http://localhost:3000/auth/token
+
+### logout
+DELETE  http://localhost:3000/auth/logout
