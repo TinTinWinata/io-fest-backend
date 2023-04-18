@@ -1,5 +1,11 @@
 import nodemailer from "nodemailer";
+import fs from "fs";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
+
+export const profilePictureRelativePath: string =
+  "./src/public/profilePicture/";
+
+export const forumRelativePath: string = "./src/public/forum/";
 
 export const sendEmail = async (email: string, activationLinkId: string) => {
   const transporter = nodemailer.createTransport({
@@ -278,6 +284,19 @@ export const sendEmail = async (email: string, activationLinkId: string) => {
       console.log(err);
     } else {
       console.log("Email sent: " + info.response);
+    }
+  });
+};
+
+export const getFileExtension = (fileName: string) => {
+  return "." + fileName.split(".").pop();
+};
+
+export const deleteFile = (filePath: string) => {
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error(err);
+      return;
     }
   });
 };

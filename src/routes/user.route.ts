@@ -1,7 +1,12 @@
 import { Router } from "express";
 import * as userController from "../controllers/user.controller";
 import { isAuthenticated } from "../middlewares/auth.middleware";
-import { errorValidator, paramUUIDValidation } from "../facades/validator";
+import {
+  bodyEmptyValidation,
+  errorValidator,
+  paramUUIDValidation,
+} from "../facades/validator";
+import { uploadProfilePicture } from "../middlewares/file.upload.middleware";
 
 const router = Router();
 
@@ -11,6 +16,14 @@ router.get(
   errorValidator,
   isAuthenticated,
   userController.getUserById
+);
+
+router.patch(
+  "/update-profile-picture",
+  isAuthenticated,
+  uploadProfilePicture.single("profilePicture"),
+  bodyEmptyValidation(["id", "profilePicture"]),
+  userController.updateProfilePicture
 );
 
 export default router;

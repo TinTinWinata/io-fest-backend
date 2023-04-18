@@ -30,10 +30,7 @@ export const isAuthenticated = (
           return res.status(400).json({ errors: [err.message] });
         }
         if (decode) {
-          //   if (typeof decode !== "string") {
-          //     // @ts-ignore
-          //     req.user = decode;
-          //   }
+          req.jwtPayload = decode;
           return next();
         }
       }

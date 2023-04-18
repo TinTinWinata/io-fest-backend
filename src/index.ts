@@ -7,6 +7,15 @@ import cors from "cors";
 import createError from "http-errors";
 import router from "./routes";
 
+declare global {
+  namespace Express {
+    export interface Request {
+      jwtPayload?: any;
+      fileValidationError?: string;
+    }
+  }
+}
+
 const app = express();
 
 app.use(
@@ -15,6 +24,10 @@ app.use(
   })
 );
 
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ 
+  extended: true 
+}));
 app.use(compression());
 app.use(cookieParser());
 app.use(express.json());

@@ -23,7 +23,7 @@ export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
-    var user = await getUserByEmail(email);
+    const user = await getUserByEmail(email);
 
     if (!user) {
       return res.status(400).json({ errors: ["email not found!"] });
@@ -57,7 +57,7 @@ export const login = async (req: Request, res: Response) => {
       }
     );
 
-    user = await updateRefreshToken(user.id, refreshToken);
+    const user2 = await updateRefreshToken(user.id, refreshToken);
 
     return res
       .cookie("refreshToken", refreshToken, {
@@ -65,7 +65,7 @@ export const login = async (req: Request, res: Response) => {
         maxAge: 24 * 60 * 60 * 1000,
       })
       .status(200)
-      .json({ user: user, accessToken: accessToken });
+      .json({ user: user2, accessToken: accessToken });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ errors: ["error occurred!"] });

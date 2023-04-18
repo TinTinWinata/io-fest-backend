@@ -18,7 +18,7 @@ model User {
   password       String
   isActive       Boolean         @default(false)
   profilePicture String?
-  forums         Forum[]         @relation("postCreator")
+  forums         Forum[]         @relation("forumCreator")
   activationLink ActivationLink?
   refreshToken   String?
 
@@ -35,35 +35,35 @@ model ActivationLink {
 }
 
 model Forum {
-  id          String         @id @default(uuid())
-  title       String
-  description String
-  creator     User           @relation("postCreator", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId      String
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  comments    ForumComment[]
-  seen        Int
-  attachments Attachment[]
+  id               String            @id @default(uuid())
+  title            String
+  description      String
+  creator          User              @relation("forumCreator", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId           String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  comments         ForumComment[]
+  seen             Int
+  forumAttachments ForumAttachment[]
 
   @@map("forums")
 }
 
-model Attachment {
-  attachedForum Forum          @relation(fields: [forumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+model ForumAttachment {
+  attachedForum Forum               @relation(fields: [forumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   forumId       String
   path          String
-  type          AttachmentType
+  type          ForumAttachmentType
 
   @@id([forumId, path])
-  @@map("attachments")
+  @@map("forum_attachments")
 }
 
-enum AttachmentType {
+enum ForumAttachmentType {
   Video @map("Video")
   Image @map("Image")
 
-  @@map("attachment_types")
+  @@map("forum_attachment_types")
 }
 
 model ForumComment {

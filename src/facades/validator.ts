@@ -16,6 +16,15 @@ export const bodyEmailValidation = (requests: string[]) => {
   });
 };
 
+export const bodyUUIDValidation = (requests: string[]) => {
+  return requests.map((req) => {
+    return body(
+      req,
+      `${req} param must be in the correct uuid(v4) format!`
+    ).isUUID(4);
+  });
+};
+
 export const bodyLengthValidation = (
   requests: string[],
   min: number[],
@@ -37,9 +46,10 @@ export const cookieEmptyValidation = (requests: string[]) => {
 
 export const paramUUIDValidation = (requests: string[]) => {
   return requests.map((req) => {
-    return param(req, `${req} param must be in the correct uuid(v4) format!`).isUUID(
-      4
-    );
+    return param(
+      req,
+      `${req} param must be in the correct uuid(v4) format!`
+    ).isUUID(4);
   });
 };
 
