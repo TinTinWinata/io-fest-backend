@@ -7,7 +7,6 @@ import {
 } from "../databases/activation.link.database";
 import { activateUser, getUserById } from "../databases/user.database";
 import { sendEmail } from "../facades/helper";
-import { User } from "@prisma/client";
 
 export const verifyUser = async (req: Request, res: Response) => {
   try {

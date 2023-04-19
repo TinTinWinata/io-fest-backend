@@ -3,8 +3,8 @@ POST http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "email": "addisonrenaldi@gmail.com",
-    "password": "asd123"
+    "email": "renacierr@gmail.com",
+    "password": "asd12345"
 }
 
 ###
@@ -12,21 +12,21 @@ POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "email": "renacierr",
+    "email": "renacierr@gmail.com",
     "name": "renaja",
     "username": "renaje",
-    "password": "asd123"
+    "password": "asd12345"
 }
 
 ###
-GET http://localhost:3000/users/9f67f149-cf5e-4ee0-890e
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwiaWF0IjoxNjgxNzUyOTQ0LCJleHAiOjE2ODE3NTM4NDR9.XYGTjz9zuSkH3DoXgtOmFOSmal-ymkLxdJanmfkzl2k
+GET http://localhost:3000/users/daa7f3a2-f941-4a9e-87c0-be747c685eea
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRhYTdmM2EyLWY5NDEtNGE5ZS04N2MwLWJlNzQ3YzY4NWVlYSIsImVtYWlsIjoicmVuYWNpZXJyQGdtYWlsLmNvbSIsImlhdCI6MTY4MTg3MzQyMywiZXhwIjoxNjgxODc0MzIzfQ.N2OljhVEBlqCBGTaEcEa_8P7FC9RwT35B_qu08RG7DA
 
 ###
-PATCH http://localhost:3000/activation-link/ff48d649-00a0-419d-85c3-043fc2d93bbe
+PATCH http://localhost:3000/activation-link/8d1d88de-be9d-4bbd-9ded-37aaff838fa0
 
 ### request activation link
-POST  http://localhost:3000/activation-link/generate/9f67f149-cf5e-4ee0-890e-1a6eb71ee1d4
+POST  http://localhost:3000/activation-link/generate/daa7f3a2-f941-4a9e-87c0-be747c685eea
 
 ### request token
 GET http://localhost:3000/auth/token

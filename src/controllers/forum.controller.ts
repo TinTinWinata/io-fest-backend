@@ -1,9 +1,44 @@
 import { Request, Response } from "express";
-import { createForum as cForum } from "../databases/forum.database";
+import {
+  createForum as cForum,
+  getForumsPagination,
+} from "../databases/forum.database";
 import { v4 as uuidv4 } from "uuid";
-import { ForumAttachment, ForumAttachmentType } from "@prisma/client";
+import { ForumAttachmentType } from "@prisma/client";
 import { createForumAttachment } from "../databases/forum.attachment.database";
-import { File } from "buffer";
+import { getPaginationOptions } from "../facades/helper";
+import { forumPerPage } from "../utils/constants";
+import { PaginationOptions } from "../interfaces/interface";
+
+export const forumPagination = async (req: Request, res: Response) => {
+  try {
+    const { page } = req.query;
+
+    let p: number = 1;
+
+
+    if (typeof page == "number") {
+      console.log("masuk");
+      p = page;
+    }
+    const paginationOptions: PaginationOptions = getPaginationOptions(
+      p,
+      forumPerPage
+    );
+
+    console.log(paginationOptions.skip, paginationOptions.take);
+
+    const forums = await getForumsPagination(
+      paginationOptions.skip,
+      paginationOptions.take
+    );
+
+    res.status(200).json(forums);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ errors: "error occurred" });
+  }
+};
 
 export const createForum = async (req: Request, res: Response) => {
   try {
@@ -13,7 +48,7 @@ export const createForum = async (req: Request, res: Response) => {
 
     const { title, description } = req.body;
 
-    const userId = req.jwtPayload.id;
+    const userId = req.jwtPayload && req.jwtPayload.id;
 
     const forum = await cForum({
       id: uuidv4(),
@@ -37,20 +72,20 @@ export const createForum = async (req: Request, res: Response) => {
 
     const length = files.length;
     for (let index = 0; index < length; index++) {
-      const f = files.at(index);
+      const file = files.at(index);
       var type: ForumAttachmentType = "Video";
-      if (!f) {
+      if (!file) {
         return res.status(400).json({ errors: "error occurred" });
       }
       if (
-        f.mimetype === "image/png" ||
-        f.mimetype === "image/jpg" ||
-        f.mimetype === "image/jpeg"
+        file.mimetype === "image/png" ||
+        file.mimetype === "image/jpg" ||
+        file.mimetype === "image/jpeg"
       ) {
         type = "Image";
       }
       await createForumAttachment({
-        path: f.originalname,
+        path: file.originalname,
         forumId: forum.id,
         type: type,
       });

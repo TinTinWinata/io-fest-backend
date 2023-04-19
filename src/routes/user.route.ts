@@ -12,16 +12,16 @@ const router = Router();
 
 router.get(
   "/:id",
+  isAuthenticated,
   paramUUIDValidation(["id"]),
   errorValidator,
-  isAuthenticated,
   userController.getUserById
 );
 
 router.patch(
   "/update-profile-picture",
   isAuthenticated,
-  uploadProfilePicture.single("profilePicture"),
+  uploadProfilePicture,
   bodyEmptyValidation(["id", "profilePicture"]),
   userController.updateProfilePicture
 );

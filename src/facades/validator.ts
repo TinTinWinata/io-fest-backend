@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { body, cookie, validationResult, param } from "express-validator";
+import { body, cookie, validationResult, param, query } from "express-validator";
 
 export const bodyEmptyValidation = (requests: string[]) => {
   return requests.map((req) => {
@@ -35,6 +35,12 @@ export const bodyLengthValidation = (
       req,
       `${req} field must between ${min[i]} and ${max[i]} character(s)!`
     ).isLength({ min: min[i], max: max[i] });
+  });
+};
+
+export const queryEmptyValidation = (requests: string[]) => {
+  return requests.map((req) => {
+    return query(req, `${req} query not found`).notEmpty();
   });
 };
 

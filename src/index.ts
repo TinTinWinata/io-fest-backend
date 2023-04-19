@@ -6,6 +6,7 @@ import compression from "compression";
 import cors from "cors";
 import createError from "http-errors";
 import router from "./routes";
+import dotenv from "dotenv";
 
 declare global {
   namespace Express {
@@ -16,6 +17,8 @@ declare global {
   }
 }
 
+dotenv.config();
+
 const app = express();
 
 app.use(
@@ -24,10 +27,12 @@ app.use(
   })
 );
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ 
-  extended: true 
-}));
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 app.use(compression());
 app.use(cookieParser());
 app.use(express.json());

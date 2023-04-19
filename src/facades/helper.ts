@@ -1,11 +1,7 @@
 import nodemailer from "nodemailer";
 import fs from "fs";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
-
-export const profilePictureRelativePath: string =
-  "./src/public/profilePicture/";
-
-export const forumRelativePath: string = "./src/public/forum/";
+import { PaginationOptions } from "../interfaces/interface";
 
 export const sendEmail = async (email: string, activationLinkId: string) => {
   const transporter = nodemailer.createTransport({
@@ -299,4 +295,21 @@ export const deleteFile = (filePath: string) => {
       return;
     }
   });
+};
+
+export const getPaginationOptions = (
+  page: number,
+  perPage: number
+): PaginationOptions => {
+  const skip = (page - 1) * perPage;
+  const take = perPage;
+
+  const paginationOpt: PaginationOptions = {
+    page: page,
+    perPage: perPage,
+    skip: skip,
+    take: take,
+  };
+
+  return paginationOpt;
 };

@@ -1,11 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import jwt, { Jwt, JwtPayload, Secret, VerifyErrors } from "jsonwebtoken";
-
-export const accessTokenSecret: Secret =
-  process.env.ACCESS_TOKEN_SECRET || "mbVBFoeO40bcE3AilczmnM7IcQY0xWQwsC7Hbuqu";
-export const refreshTokenSecret: Secret =
-  process.env.REFRESH_TOKEN_SECRET ||
-  "CkwmqZBk2e8HPkwsxi0lbZrvqej7BYpmNmTvJZTL";
+import jwt, { Jwt, JwtPayload, VerifyErrors } from "jsonwebtoken";
+import { accessTokenSecret } from "../utils/constants";
 
 export const isAuthenticated = (
   req: Request,

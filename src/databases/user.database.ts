@@ -1,6 +1,7 @@
 import DBClient from "../../prisma/prismaClient";
 import { User } from "@prisma/client";
-import { deleteFile, profilePictureRelativePath } from "../facades/helper";
+import { deleteFile } from "../facades/helper";
+import { profilePictureRelativePath } from "../utils/constants";
 
 const prisma = DBClient.getInstance().prisma;
 

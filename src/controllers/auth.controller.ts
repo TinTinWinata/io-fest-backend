@@ -13,7 +13,7 @@ import { createUser } from "../databases/user.database";
 import {
   accessTokenSecret,
   refreshTokenSecret,
-} from "../middlewares/auth.middleware";
+} from "../utils/constants";
 import { sendEmail } from "../facades/helper";
 import { createActivationLink } from "../databases/activation.link.database";
 import { Jwt } from "jsonwebtoken";

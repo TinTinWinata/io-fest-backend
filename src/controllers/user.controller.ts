@@ -24,11 +24,16 @@ export const updateProfilePicture = async (req: Request, res: Response) => {
       return res.status(400).json({ errors: [req.fileValidationError] });
     }
 
-    const { id, profilePicture } = req.body;
-    const user = await uProfilePicture(id, profilePicture);
+    const { profilePicture } = req.body;
+
+    const userId = req.jwtPayload && req.jwtPayload.id;
+
+    const user = await uProfilePicture(userId, profilePicture);
+
     if (user) {
       return res.status(200).json(user);
     }
+    
     return res.status(400).json({ errors: ["user not found"] });
   } catch (error) {
     console.log(error);

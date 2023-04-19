@@ -1,19 +1,20 @@
-import { Request } from "express";
+import { NextFunction, Request, Response } from "express";
 import multer, { FileFilterCallback } from "multer";
 import { v4 as uuidv4 } from "uuid";
+import { getFileExtension } from "../facades/helper";
 import {
   forumRelativePath,
-  getFileExtension,
+  maxForumAttachmentCount,
   profilePictureRelativePath,
-} from "../facades/helper";
+} from "../utils/constants";
 
 type DestinationCallback = (error: Error | null, destination: string) => void;
 type FileNameCallback = (error: Error | null, filename: string) => void;
 
 const profilePictureStorage = multer.diskStorage({
   destination: (
-    req: Request,
-    file: Express.Multer.File,
+    _req: Request,
+    _file: Express.Multer.File,
     callback: DestinationCallback
   ): void => {
     callback(null, profilePictureRelativePath);
@@ -49,14 +50,14 @@ const profilePictureFileFilter = (
 
 const forumStorage = multer.diskStorage({
   destination: (
-    req: Request,
-    file: Express.Multer.File,
+    _req: Request,
+    _file: Express.Multer.File,
     callback: DestinationCallback
   ): void => {
     callback(null, forumRelativePath);
   },
   filename: (
-    req: Request,
+    _req: Request,
     file: Express.Multer.File,
     callback: FileNameCallback
   ): void => {
@@ -86,12 +87,49 @@ const forumFileFilter = (
   }
 };
 
-export const uploadProfilePicture = multer({
-  storage: profilePictureStorage,
-  fileFilter: profilePictureFileFilter,
-});
+export const uploadProfilePicture = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  multer({
+    storage: profilePictureStorage,
+    fileFilter: profilePictureFileFilter,
+  }).single("profilePicture")(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      return res
+        .status(500)
+        .json({ message: "An error occurred while uploading files" });
+    } else if (err) {
+      return res
+        .status(500)
+        .json({ message: "An error occurred while uploading files" });
+    }
+    next();
+  });
+};
 
-export const uploadForum = multer({
-  storage: forumStorage,
-  fileFilter: forumFileFilter,
-});
+export const uploadForum = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  multer({
+    storage: forumStorage,
+    fileFilter: forumFileFilter,
+  }).array("forumAttachments", maxForumAttachmentCount)(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      if (err.code === "LIMIT_UNEXPECTED_FILE") {
+        return res.status(400).json({ message: "Too many files uploaded" });
+      }
+      return res
+        .status(500)
+        .json({ message: "An error occurred while uploading files" });
+    } else if (err) {
+      return res
+        .status(500)
+        .json({ message: "An error occurred while uploading files" });
+    }
+    next();
+  });
+};

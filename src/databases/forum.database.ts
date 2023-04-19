@@ -8,8 +8,14 @@ export const getAllForum = async () => {
   return forums;
 };
 
-export const getAllForumPagination = async (skip: number, take: number) => {
-  const forums = await prisma.forum.findMany({ skip: skip, take: take });
+export const getForumsPagination = async (skip: number, take: number) => {
+  const forums = await prisma.forum.findMany({
+    skip: skip,
+    take: take,
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
   return forums;
 };
 
