@@ -1,6 +1,6 @@
 node_modules
 .env
-.src/public/profilePicture/*
+src/public/profilePicture/*
 !src/public/profilePicture/.gitkeep
-.src/public/forum/*
+src/public/forum/*
 !src/public/forum/.gitkeep
