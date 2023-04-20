@@ -10,10 +10,7 @@ import {
   updateRefreshToken,
 } from "../databases/user.database";
 import { createUser } from "../databases/user.database";
-import {
-  accessTokenSecret,
-  refreshTokenSecret,
-} from "../utils/constants";
+import { accessTokenSecret, refreshTokenSecret } from "../utils/constants";
 import { sendEmail } from "../facades/helper";
 import { createActivationLink } from "../databases/activation.link.database";
 import { Jwt } from "jsonwebtoken";
@@ -42,7 +39,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     const accessToken = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, role: user.role },
       accessTokenSecret,
       {
         expiresIn: "15m",
@@ -50,7 +47,7 @@ export const login = async (req: Request, res: Response) => {
     );
 
     const refreshToken = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id, email: user.email, role: user.role },
       refreshTokenSecret,
       {
         expiresIn: "1d",
@@ -93,11 +90,12 @@ export const register = async (req: Request, res: Response) => {
     const hashedPassword = await hash(password, saltRounds);
 
     const user = await createUser({
+      id: uuidv4(),
       email: email,
       username: username,
       name: name,
       password: hashedPassword,
-      id: uuidv4(),
+      role: "Member",
       isActive: false,
       profilePicture: "",
       refreshToken: "",
@@ -111,7 +109,7 @@ export const register = async (req: Request, res: Response) => {
 
     await sendEmail(email, activationLink.id);
 
-    return res.status(200).json(user);
+    return res.status(200).json({ user: user });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ errors: ["error occurred!"] });
@@ -140,13 +138,13 @@ export const refreshToken = async (req: Request, res: Response) => {
         }
         if (decode) {
           const accessToken = jwt.sign(
-            { id: user.id, email: user.email },
+            { id: user.id, email: user.email, role: user.role },
             accessTokenSecret,
             {
               expiresIn: "15m",
             }
           );
-          res.status(200).json({ user: user, accessToken: accessToken });
+          res.status(200).json({ accessToken: accessToken });
         }
       }
     );

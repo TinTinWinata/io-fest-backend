@@ -1,5 +1,5 @@
-import DBClient from "../../prisma/prismaClient";
-import { User } from "@prisma/client";
+import DBClient from "../../prisma/prisma.client";
+import { User, UserRole } from "@prisma/client";
 import { deleteFile } from "../facades/helper";
 import { profilePictureRelativePath } from "../utils/constants";
 
@@ -13,10 +13,10 @@ export const getUserById = async (id: string) => {
       email: true,
       username: true,
       name: true,
-      isActive: true,
+      isActive: false,
       profilePicture: true,
       forums: true,
-      refreshToken: true,
+      refreshToken: false,
     },
   });
   return user;
@@ -31,10 +31,12 @@ export const getUserByEmail = async (email: string) => {
       username: true,
       name: true,
       password: true,
+      role: true,
       isActive: true,
       profilePicture: true,
       forums: true,
-      refreshToken: true,
+      activationLink: false,
+      refreshToken: false,
     },
   });
   return user;
@@ -48,10 +50,13 @@ export const getUserByUsername = async (username: string) => {
       email: true,
       username: true,
       name: true,
-      isActive: true,
+      password: false,
+      role: true,
+      isActive: false,
       profilePicture: true,
       forums: true,
-      refreshToken: true,
+      activationLink: false,
+      refreshToken: false,
     },
   });
   return user;
@@ -65,10 +70,13 @@ export const getUserByRefreshToken = async (refreshToken: string) => {
       email: true,
       username: true,
       name: true,
-      isActive: true,
+      password: false,
+      role: true,
+      isActive: false,
       profilePicture: true,
       forums: true,
-      refreshToken: true,
+      activationLink: false,
+      refreshToken: false,
     },
   });
   return user;
@@ -82,10 +90,13 @@ export const createUser = async (user: User) => {
       email: true,
       username: true,
       name: true,
-      isActive: true,
+      password: false,
+      role: true,
+      isActive: false,
       profilePicture: true,
       forums: true,
-      refreshToken: true,
+      activationLink: false,
+      refreshToken: false,
     },
   });
   return result;
@@ -95,17 +106,20 @@ export const activateUser = async (id: string) => {
   const user = await prisma.user.update({
     where: { id: id },
     data: {
-      isActive: true,
+      isActive: false,
     },
     select: {
       id: true,
       email: true,
       username: true,
       name: true,
-      isActive: true,
+      password: false,
+      role: true,
+      isActive: false,
       profilePicture: true,
       forums: true,
-      refreshToken: true,
+      activationLink: false,
+      refreshToken: false,
     },
   });
   return user;
@@ -122,10 +136,13 @@ export const updateRefreshToken = async (id: string, refreshToken: string) => {
       email: true,
       username: true,
       name: true,
-      isActive: true,
+      password: false,
+      role: true,
+      isActive: false,
       profilePicture: true,
       forums: true,
-      refreshToken: true,
+      activationLink: false,
+      refreshToken: false,
     },
   });
   return user;
@@ -142,10 +159,41 @@ export const clearRefreshToken = async (id: string) => {
       email: true,
       username: true,
       name: true,
-      isActive: true,
+      password: false,
+      role: true,
+      isActive: false,
       profilePicture: true,
       forums: true,
-      refreshToken: true,
+      activationLink: false,
+      refreshToken: false,
+    },
+  });
+  return user;
+};
+
+export const updateProfile = async (
+  id: string,
+  username: string,
+  name: string
+) => {
+  const user = await prisma.user.update({
+    where: { id: id },
+    data: {
+      username: username,
+      name: name,
+    },
+    select: {
+      id: true,
+      email: true,
+      username: true,
+      name: true,
+      password: false,
+      role: true,
+      isActive: false,
+      profilePicture: true,
+      forums: true,
+      activationLink: false,
+      refreshToken: false,
     },
   });
   return user;
@@ -173,10 +221,36 @@ export const updateProfilePicture = async (
       email: true,
       username: true,
       name: true,
-      isActive: true,
+      password: false,
+      role: true,
+      isActive: false,
       profilePicture: true,
       forums: true,
-      refreshToken: true,
+      activationLink: false,
+      refreshToken: false,
+    },
+  });
+  return user;
+};
+
+export const updateRoleDoctor = async (id: string) => {
+  const user = await prisma.user.update({
+    where: { id: id },
+    data: {
+      role: "Doctor",
+    },
+    select: {
+      id: true,
+      email: true,
+      username: true,
+      name: true,
+      password: false,
+      role: true,
+      isActive: false,
+      profilePicture: true,
+      forums: true,
+      activationLink: false,
+      refreshToken: false,
     },
   });
   return user;

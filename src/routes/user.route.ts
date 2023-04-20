@@ -7,6 +7,7 @@ import {
   paramUUIDValidation,
 } from "../facades/validator";
 import { uploadProfilePicture } from "../middlewares/file.upload.middleware";
+import { isAdmin } from "../middlewares/role.middleware";
 
 const router = Router();
 
@@ -19,11 +20,29 @@ router.get(
 );
 
 router.patch(
+  "/update-profile",
+  isAuthenticated,
+  bodyEmptyValidation(["username", "name"]),
+  errorValidator,
+  userController.updateProfile
+);
+
+router.patch(
   "/update-profile-picture",
   isAuthenticated,
   uploadProfilePicture,
-  bodyEmptyValidation(["id", "profilePicture"]),
+  bodyEmptyValidation(["profilePicture"]),
+  errorValidator,
   userController.updateProfilePicture
+);
+
+router.patch(
+  "/change-role-doctor/:id",
+  isAuthenticated,
+  isAdmin,
+  paramUUIDValidation(["id"]),
+  userController.changeRole,
+  errorValidator
 );
 
 export default router;

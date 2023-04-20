@@ -105,7 +105,7 @@ export const uploadProfilePicture = (
         .status(500)
         .json({ message: "An error occurred while uploading files" });
     }
-    next();
+    return next();
   });
 };
 
@@ -130,6 +130,6 @@ export const uploadForum = (
         .status(500)
         .json({ message: "An error occurred while uploading files" });
     }
-    next();
+    return next();
   });
 };

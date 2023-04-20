@@ -16,6 +16,7 @@ model User {
   username       String          @unique
   name           String
   password       String
+  role           UserRole        @default(Member)
   isActive       Boolean         @default(false)
   profilePicture String?
   forums         Forum[]         @relation("forumCreator")
@@ -23,6 +24,14 @@ model User {
   refreshToken   String?
 
   @@map("users")
+}
+
+enum UserRole {
+  Admin  @map("Admin")
+  Member @map("Member")
+  Doctor @map("Doctor")
+
+  @@map("user_roles")
 }
 
 model ActivationLink {

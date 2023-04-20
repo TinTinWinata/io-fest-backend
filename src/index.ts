@@ -7,6 +7,7 @@ import cors from "cors";
 import createError from "http-errors";
 import router from "./routes";
 import dotenv from "dotenv";
+import path from "path";
 
 declare global {
   namespace Express {
@@ -37,6 +38,9 @@ app.use(compression());
 app.use(cookieParser());
 app.use(express.json());
 
+// console.log(path.join(__dirname, "public", "profilePicture"))
+
+// app.use("/static", express.static(path.join(__dirname, "public", "profilePicture")));
 app.use("/", router);
 
 // handle 404 error

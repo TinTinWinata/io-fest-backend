@@ -1,4 +1,4 @@
-import DBClient from "../../prisma/prismaClient";
+import DBClient from "../../prisma/prisma.client";
 import { ForumAttachment } from "@prisma/client";
 
 const prisma = DBClient.getInstance().prisma;
