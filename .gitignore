@@ -1,6 +1,4 @@
 node_modules
 .env
-.jpg
-.jpeg
 ./src/public/profilePicture/*
 ./src/public/forum/*
