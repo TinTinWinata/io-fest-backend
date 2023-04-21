@@ -12,7 +12,7 @@ export const createForumAttachment = async (
   return result;
 };
 
-export const getAllForumAttachment = async (forumId: string) => {
+export const getAllForumAttachments = async (forumId: string) => {
   const forumAttachments = await prisma.forumAttachment.findMany({
     where: {
       forumId: forumId,

@@ -1,5 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { body, cookie, validationResult, param, query } from "express-validator";
+import {
+  body,
+  cookie,
+  validationResult,
+  param,
+  query,
+} from "express-validator";
 
 export const bodyEmptyValidation = (requests: string[]) => {
   return requests.map((req) => {
@@ -20,7 +26,7 @@ export const bodyUUIDValidation = (requests: string[]) => {
   return requests.map((req) => {
     return body(
       req,
-      `${req} param must be in the correct uuid(v4) format!`
+      `${req} body must be in the correct uuid(v4) format!`
     ).isUUID(4);
   });
 };
@@ -47,6 +53,15 @@ export const queryEmptyValidation = (requests: string[]) => {
 export const cookieEmptyValidation = (requests: string[]) => {
   return requests.map((req) => {
     return cookie(req, `${req} cookie not found!`).exists();
+  });
+};
+
+export const paramEmptyValidation = (requests: string[]) => {
+  return requests.map((req) => {
+    return param(
+      req,
+      `${req} param must be in the correct uuid(v4) format!`
+    ).notEmpty();
   });
 };
 

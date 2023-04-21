@@ -106,7 +106,7 @@ export const activateUser = async (id: string) => {
   const user = await prisma.user.update({
     where: { id: id },
     data: {
-      isActive: false,
+      isActive: true,
     },
     select: {
       id: true,
@@ -254,4 +254,26 @@ export const updateRoleDoctor = async (id: string) => {
     },
   });
   return user;
+};
+
+export const getAllRoles = async () => {
+  const members = await prisma.user.findMany({
+    where: {
+      role: "Member",
+    },
+  });
+
+  const doctors = await prisma.user.findMany({
+    where: {
+      role: "Doctor",
+    },
+  });
+
+  const admins = await prisma.user.findMany({
+    where: {
+      role: "Admin",
+    },
+  });
+
+  return { members, doctors, admins };
 };

@@ -5,6 +5,7 @@ import {
   updateProfilePicture as uProfilePicture,
   updateProfile as uProfile,
   updateRoleDoctor,
+  getAllRoles,
 } from "../databases/user.database";
 
 export const getUserById = async (req: Request, res: Response) => {
@@ -53,13 +54,13 @@ export const updateProfile = async (req: Request, res: Response) => {
     const checkUsername = await getUserByUsername(username);
 
     if (checkUsername) {
-      res.status(400).json({ errros: ["username already taken!"] });
+      res.status(400).json({ errors: ["username already taken!"] });
     }
 
     const user = await uProfile(userId, username, name);
 
     if (!user) {
-      return res.status(400).json({ errors: "user not found!" });
+      return res.status(400).json({ errors: ["user not found!"] });
     }
 
     return res.status(200).json({ user: user });
@@ -71,15 +72,28 @@ export const updateProfile = async (req: Request, res: Response) => {
 
 export const changeRole = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const { userId } = req.body;
 
-    const user = await updateRoleDoctor(id);
+    const user = await updateRoleDoctor(userId);
 
     if (!user) {
-      res.status(400).json({ errros: ["user not found!"] });
+      res.status(400).json({ errors: ["user not found!"] });
     }
 
     return res.status(200).json({ user: user });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ errors: ["error occurred!"] });
+  }
+};
+
+export const adminPage = async (req: Request, res: Response) => {
+  try {
+    const { members, doctors, admins } = await getAllRoles();
+
+    return res
+      .status(200)
+      .json({ members: members, doctors: doctors, admins: admins });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ errors: ["error occurred!"] });

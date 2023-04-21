@@ -1,19 +1,19 @@
 import { Router } from "express";
 import * as userController from "../controllers/user.controller";
-import { isAuthenticated } from "../middlewares/auth.middleware";
 import {
   bodyEmptyValidation,
   errorValidator,
+  paramEmptyValidation,
   paramUUIDValidation,
-} from "../facades/validator";
+} from "../middlewares/validator.middleware";
 import { uploadProfilePicture } from "../middlewares/file.upload.middleware";
 import { isAdmin } from "../middlewares/role.middleware";
 
 const router = Router();
 
 router.get(
-  "/:id",
-  isAuthenticated,
+  "/get/:id",
+  paramEmptyValidation(["id"]),
   paramUUIDValidation(["id"]),
   errorValidator,
   userController.getUserById
@@ -21,7 +21,6 @@ router.get(
 
 router.patch(
   "/update-profile",
-  isAuthenticated,
   bodyEmptyValidation(["username", "name"]),
   errorValidator,
   userController.updateProfile
@@ -29,7 +28,6 @@ router.patch(
 
 router.patch(
   "/update-profile-picture",
-  isAuthenticated,
   uploadProfilePicture,
   bodyEmptyValidation(["profilePicture"]),
   errorValidator,
@@ -37,12 +35,13 @@ router.patch(
 );
 
 router.patch(
-  "/change-role-doctor/:id",
-  isAuthenticated,
+  "/change-role-doctor",
   isAdmin,
-  paramUUIDValidation(["id"]),
-  userController.changeRole,
-  errorValidator
+  bodyEmptyValidation(["userId"]),
+  errorValidator,
+  userController.changeRole
 );
+
+router.get("/admin-page", isAdmin, userController.adminPage);
 
 export default router;

@@ -2,17 +2,29 @@ import { Router } from "express";
 import * as forumController from "../controllers/forum.controller";
 import {
   bodyEmptyValidation,
+  bodyUUIDValidation,
   errorValidator,
+  paramEmptyValidation,
   paramUUIDValidation,
-} from "../facades/validator";
+} from "../middlewares/validator.middleware";
 import { uploadForum } from "../middlewares/file.upload.middleware";
+import { isForumCreator } from "../middlewares/forum.middleware";
 
 const router = Router();
 
 router.get("/newest", forumController.newestForumPagination);
 router.get("/top", forumController.topForumPagination);
+
+router.get(
+  "/get/:forumId",
+  paramEmptyValidation(["forumId"]),
+  paramUUIDValidation(["forumId"]),
+  errorValidator,
+  forumController.getForum
+);
+
 router.post(
-  "/create-forum",
+  "/create",
   uploadForum,
   bodyEmptyValidation(["title", "description"]),
   errorValidator,
@@ -20,12 +32,30 @@ router.post(
 );
 
 router.patch(
-  "/seen/:forumId",
+  "/seen",
+  bodyEmptyValidation(["forumId"]),
+  bodyUUIDValidation(["forumId"]),
   errorValidator,
-  paramUUIDValidation(["forumId"]),
+  isForumCreator,
   forumController.forumSeen
 );
 
-// router.patch("/update-forum");
+router.patch(
+  "/update",
+  bodyEmptyValidation(["forumId", "title", "description"]),
+  bodyUUIDValidation(["forumId"]),
+  errorValidator,
+  isForumCreator,
+  forumController.updateForum
+);
+
+router.delete(
+  "/delete",
+  bodyEmptyValidation(["forumId"]),
+  bodyUUIDValidation(["forumId"]),
+  errorValidator,
+  isForumCreator,
+  forumController.deleteForum
+);
 
 export default router;

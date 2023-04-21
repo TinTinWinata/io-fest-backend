@@ -1,19 +1,25 @@
 import { Router } from "express";
 import * as activationLinkController from "../controllers/activation.link.controller";
-import { errorValidator, paramUUIDValidation } from "../facades/validator";
+import {
+  bodyEmptyValidation,
+  errorValidator,
+  bodyUUIDValidation,
+} from "../middlewares/validator.middleware";
 
 const router = Router();
 
 router.patch(
-  "/:id",
-  paramUUIDValidation(["id"]),
+  "/activate",
+  bodyEmptyValidation(["activationLinkId"]),
+  bodyUUIDValidation(["activationLinkId"]),
   errorValidator,
-  activationLinkController.verifyUser
+  activationLinkController.activateUser
 );
 
 router.post(
-  "/generate/:id",
-  paramUUIDValidation(["id"]),
+  "/generate",
+  bodyEmptyValidation(["userId", "activationLinkId"]),
+  bodyUUIDValidation(["userId", "activationLinkId"]),
   errorValidator,
   activationLinkController.generateActivationLink
 );

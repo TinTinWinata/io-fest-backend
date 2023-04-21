@@ -94,6 +94,68 @@ export const getForumById = async (id: string) => {
       id: id,
     },
     include: {
+      _count: true,
+      creator: {
+        select: {
+          id: true,
+          email: false,
+          username: true,
+          name: true,
+          password: false,
+          isActive: false,
+          profilePicture: true,
+          forums: false,
+          activationLink: false,
+          refreshToken: false,
+        },
+      },
+      forumComments: {
+        include: {
+          _count: true,
+          forumReplies: {
+            include: {
+              replier: {
+                select: {
+                  id: true,
+                  email: false,
+                  username: true,
+                  name: true,
+                  password: false,
+                  isActive: false,
+                  profilePicture: true,
+                  forums: false,
+                  activationLink: false,
+                  refreshToken: false,
+                },
+              },
+            },
+          },
+          commenter: {
+            select: {
+              id: true,
+              email: false,
+              username: true,
+              name: true,
+              password: false,
+              isActive: false,
+              profilePicture: true,
+              forums: false,
+              activationLink: false,
+              refreshToken: false,
+            },
+          },
+        },
+      },
+      forumAttachments: true,
+    },
+  });
+  return forum;
+};
+
+export const createForum = async (forum: Forum) => {
+  const result = await prisma.forum.create({
+    data: { ...forum },
+    include: {
       creator: {
         select: {
           id: true,
@@ -110,12 +172,19 @@ export const getForumById = async (id: string) => {
       },
     },
   });
-  return forum;
+  return result;
 };
 
-export const createForum = async (forum: Forum) => {
-  const result = await prisma.forum.create({
-    data: { ...forum },
+export const updateForum = async (
+  id: string,
+  title: string,
+  description: string
+) => {
+  const result = await prisma.forum.update({
+    where: {
+      id: id,
+    },
+    data: { title: title, description: description },
     include: {
       creator: {
         select: {
@@ -158,4 +227,39 @@ export const incrementForumSeen = async (id: string) => {
     },
   });
   return forum;
+};
+
+export const deleteForum = async (id: string) => {
+  const result = await prisma.forum.delete({
+    where: {
+      id: id,
+    },
+    include: {
+      creator: {
+        select: {
+          id: true,
+          email: false,
+          username: true,
+          name: true,
+          password: false,
+          isActive: false,
+          profilePicture: true,
+          forums: false,
+          activationLink: false,
+          refreshToken: false,
+        },
+      },
+    },
+  });
+  return result;
+};
+
+export const checkForumCreator = async (forumId: string, userId: string) => {
+  const result = await prisma.forum.findFirst({
+    where: {
+      id: forumId,
+      userId: userId,
+    },
+  });
+  return result;
 };

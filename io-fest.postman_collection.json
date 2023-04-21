@@ -1,0 +1,985 @@
+{
+	"info": {
+		"_postman_id": "7160b905-b1b0-4ddf-9d2e-f0a426bdcc3d",
+		"name": "io-fest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19404731"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "getUserByID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwicm9sZSI6IkRvY3RvciIsImlhdCI6MTY4MjAzNTY4MywiZXhwIjoxNjgyMDM2NTgzfQ.zNpQsK63Zx47I3vb65tQgo3xM5m8NPgD69ROwLnXYwI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/users/get/9f67f149-cf5e-4ee0-890e-1a6eb71ee1d4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"get",
+								"9f67f149-cf5e-4ee0-890e-1a6eb71ee1d4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProfile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwicm9sZSI6IkRvY3RvciIsImlhdCI6MTY4MjAzNTY4MywiZXhwIjoxNjgyMDM2NTgzfQ.zNpQsK63Zx47I3vb65tQgo3xM5m8NPgD69ROwLnXYwI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "rengans2",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "ren",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/update-profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"update-profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProfilePicture",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwicm9sZSI6Ik1lbWJlciIsImlhdCI6MTY4MjAyNTI1OSwiZXhwIjoxNjgyMDI2MTU5fQ.1_obnV8fc_qbscxgjS7jeJkirm3-SFWHMS_iYRblBi4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "profilePicture",
+									"type": "file",
+									"src": "/C:/Users/ren/Downloads/unnamed.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/update-profile-picture",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"update-profile-picture"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeUserRoletoDoctor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFmODQxZWUyLWZkMWQtNDUxNS1iNmUyLWViYmZhNWQ1OWI0YiIsImVtYWlsIjoiYWRkaXNvbnJlbmFsYWRpQGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTY4MjAyODQwNywiZXhwIjoxNjgyMDI5MzA3fQ.NS5QN2LT3rupEvprPSbumrfm3JnxS4W0UwlMo6SUpQY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "userId",
+									"value": "9f67f149-cf5e-4ee0-890e-1a6eb71ee1d4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/change-role-doctor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"change-role-doctor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profilePicture",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFmODQxZWUyLWZkMWQtNDUxNS1iNmUyLWViYmZhNWQ1OWI0YiIsImVtYWlsIjoiYWRkaXNvbnJlbmFsYWRpQGdtYWlsLmNvbSIsInJvbGUiOiJNZW1iZXIiLCJpYXQiOjE2ODIwMjU3NTYsImV4cCI6MTY4MjAyNjY1Nn0.IZRSNHMqbd-266KCVYAtnEY87HjYc4ldwaEa1dDzRN4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/public/profile-picture/4d0eaa12-7c6a-4b11-a4d4-f9b78225bca4.png",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"public",
+								"profile-picture",
+								"4d0eaa12-7c6a-4b11-a4d4-f9b78225bca4.png"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "adminPage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFmODQxZWUyLWZkMWQtNDUxNS1iNmUyLWViYmZhNWQ1OWI0YiIsImVtYWlsIjoiYWRkaXNvbnJlbmFsYWRpQGdtYWlsLmNvbSIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTY4MjAzNjEyNSwiZXhwIjoxNjgyMDM3MDI1fQ.q7JvysO70MYJRfmaL4kOy5oP-zLkPvRda0rHONfZTCg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/admin-page",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"admin-page"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"addisonrenaladi@gmail.com\",\r\n    \"password\": \"password\"\r\n}\r\n\r\n// {\r\n//     \"email\": \"addisonrenaldi@gmail.com\",\r\n//     \"password\": \"asd123\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"addisonrenaladi@gmail.com\",\r\n    \"name\": \"renaaja\",\r\n    \"username\": \"renaja\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/auth/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "requestToken",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/auth/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "activationLink",
+			"item": [
+				{
+					"name": "activateUser",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "activationLinkId",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/activation-links/activate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"activation-links",
+								"activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "generateActivationLink",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "userId",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "activationLinkId",
+									"value": "",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/activation-links/generate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"activation-links",
+								"generate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "forum",
+			"item": [
+				{
+					"name": "newForumPagination",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwiaWF0IjoxNjgxOTMyMDQ0LCJleHAiOjE2ODE5MzI5NDR9.NbREFYZ9DKgAgPpZfqN6V02dWw6-HpSrr-pjFV7dsXg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/forums/newest?page=2.5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"forums",
+								"newest"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2.5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "topForumPagination",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwiaWF0IjoxNjgxOTM1MjUwLCJleHAiOjE2ODE5MzYxNTB9.-2Fs-YyeVc4CpgIfA6vLgqsSvXcNxmR7Pkv_b_vU6PI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/forums/top?page=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"forums",
+								"top"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getForum",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwicm9sZSI6IkRvY3RvciIsImlhdCI6MTY4MjAzNDk5NywiZXhwIjoxNjgyMDM1ODk3fQ.e2PMrZgGa5AB6Eqo-GN5jkH1bpXvI5RTz7V2hCjO7U4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/forums/get/6b58dd7b-8eaa-42a8-97e5-16131d2d6d1d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"forums",
+								"get",
+								"6b58dd7b-8eaa-42a8-97e5-16131d2d6d1d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createForum",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwiaWF0IjoxNjgxOTEyODQwLCJleHAiOjE2ODE5MTM3NDB9.SPVGW4fJ09GsEGbmmDpaq0yBOmdHdzGrfzH8tEnv5Ag",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "testing",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "testing description 7",
+									"type": "text"
+								},
+								{
+									"key": "forumAttachments",
+									"type": "file",
+									"src": [
+										"/C:/Users/RE22-1/Downloads/CC.png",
+										"/C:/Users/RE22-1/Downloads/RE_1.jpg",
+										"/C:/Users/RE22-1/Downloads/RE_2.jpg",
+										"/C:/Users/RE22-1/Downloads/RE_3.jpg",
+										"/C:/Users/RE22-1/Downloads/RE_4.jpg"
+									],
+									"disabled": true
+								},
+								{
+									"key": "forumAttachments",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "attachmentTypes",
+									"value": "[]",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/forums/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"forums",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "seeForum",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwiaWF0IjoxNjgxOTMyMDQ0LCJleHAiOjE2ODE5MzI5NDR9.NbREFYZ9DKgAgPpZfqN6V02dWw6-HpSrr-pjFV7dsXg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "forumId",
+									"value": "d313cf5f-7c7e-4580-8106-5c864738ded4",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/forums/seen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"forums",
+								"seen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateForum",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwicm9sZSI6IkRvY3RvciIsImlhdCI6MTY4MjAyOTE4OCwiZXhwIjoxNjgyMDMwMDg4fQ.1P2gOW_8f5_wZLfCeOJBE_-ZK0-6MmBXVqyB6iLgwmQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "asd",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "asd12",
+									"type": "text"
+								},
+								{
+									"key": "forumId",
+									"value": "76f3f5f3-76a7-4d38-bd30-8ea2f38faf84",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/forums/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"forums",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteForum",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwicm9sZSI6IkRvY3RvciIsImlhdCI6MTY4MjAyOTE4OCwiZXhwIjoxNjgyMDMwMDg4fQ.1P2gOW_8f5_wZLfCeOJBE_-ZK0-6MmBXVqyB6iLgwmQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "forumId",
+									"value": "76f3f5f3-76a7-4d38-bd30-8ea2f38faf84",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/forums/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"forums",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "forumComment",
+			"item": [
+				{
+					"name": "getAllForumComments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwicm9sZSI6IkRvY3RvciIsImlhdCI6MTY4MjAzMzY5NiwiZXhwIjoxNjgyMDM0NTk2fQ.2SAFbwk7cU71ddSziS1MdasQIrJ_0KjY_7bRlIdpx4k",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/forum-comments/6b58dd7b-8eaa-42a8-97e5-16131d2d6d1d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"forum-comments",
+								"6b58dd7b-8eaa-42a8-97e5-16131d2d6d1d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createForumComment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwicm9sZSI6IkRvY3RvciIsImlhdCI6MTY4MjAzNDk5NywiZXhwIjoxNjgyMDM1ODk3fQ.e2PMrZgGa5AB6Eqo-GN5jkH1bpXvI5RTz7V2hCjO7U4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "forumId",
+									"value": "6b58dd7b-8eaa-42a8-97e5-16131d2d6d1d",
+									"type": "text"
+								},
+								{
+									"key": "comment",
+									"value": "hai2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/forum-comments/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"forum-comments",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "forumReply",
+			"item": [
+				{
+					"name": "getAllForumReplies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwicm9sZSI6IkRvY3RvciIsImlhdCI6MTY4MjAzNTY4MywiZXhwIjoxNjgyMDM2NTgzfQ.zNpQsK63Zx47I3vb65tQgo3xM5m8NPgD69ROwLnXYwI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/forum-replies/77c84880-8c3d-4321-99de-fe468c68b0da",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"forum-replies",
+								"77c84880-8c3d-4321-99de-fe468c68b0da"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createForumReply",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjlmNjdmMTQ5LWNmNWUtNGVlMC04OTBlLTFhNmViNzFlZTFkNCIsImVtYWlsIjoiYWRkaXNvbnJlbmFsZGlAZ21haWwuY29tIiwicm9sZSI6IkRvY3RvciIsImlhdCI6MTY4MjAzNDk5NywiZXhwIjoxNjgyMDM1ODk3fQ.e2PMrZgGa5AB6Eqo-GN5jkH1bpXvI5RTz7V2hCjO7U4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "forumCommentId",
+									"value": "77c84880-8c3d-4321-99de-fe468c68b0da",
+									"type": "text"
+								},
+								{
+									"key": "reply",
+									"value": "hai juga 2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/forum-replies/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"forum-replies",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

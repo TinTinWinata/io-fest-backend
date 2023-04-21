@@ -3,7 +3,7 @@ import fs from "fs";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
 import { PaginationOptions } from "../interfaces/interface";
 
-export const sendEmail = async (email: string, activationLinkId: string) => {
+export const sendEmail = async (email: string, activationLinkId: string) : Promise<boolean>=> {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -280,8 +280,10 @@ export const sendEmail = async (email: string, activationLinkId: string) => {
       console.log(err);
     } else {
       console.log("Email sent: " + info.response);
+      return true;
     }
   });
+  return false;
 };
 
 export const getFileExtension = (fileName: string) => {

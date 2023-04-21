@@ -6,7 +6,7 @@ import {
   bodyEmailValidation,
   bodyLengthValidation,
   cookieEmptyValidation,
-} from "../facades/validator";
+} from "../middlewares/validator.middleware";
 
 const router = Router();
 

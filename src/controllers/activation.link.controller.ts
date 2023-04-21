@@ -5,49 +5,57 @@ import {
   deleteActivationLinkById,
   getActivationLinkById,
 } from "../databases/activation.link.database";
-import { activateUser, getUserById } from "../databases/user.database";
+import { activateUser as aUser, getUserById } from "../databases/user.database";
 import { sendEmail } from "../facades/helper";
 
-export const verifyUser = async (req: Request, res: Response) => {
+export const activateUser = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
+    const { activationLinkId } = req.body;
 
-    const activationLink = await getActivationLinkById(id);
+    const activationLink = await getActivationLinkById(activationLinkId);
 
     if (!activationLink) {
       return res.status(404).json({ errors: ["activation link not found!"] });
     }
 
     if (Date.now() > activationLink.expirationDate.getTime()) {
-      await deleteActivationLinkById(activationLink.id);
       return res.status(410).json({ errors: ["activation link expired!"] });
     }
 
-    await activateUser(activationLink.userId);
-    await deleteActivationLinkById(activationLink.id);
-    return res.status(200).json({ successes: ["user activated successfully!"] });
+    if (await aUser(activationLink.userId)) {
+      await deleteActivationLinkById(activationLink.id);
+    }
+    return res
+      .status(200)
+      .json({ successes: ["user activated successfully!"] });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ errors: ["error occured"] });
+    res.status(400).json({ errors: ["error occurred!"] });
   }
 };
 
 export const generateActivationLink = async (req: Request, res: Response) => {
-  const id = req.params.id;
+  try {
+    const { userId, activationLinkId } = req.body;
+    const user = await getUserById(userId);
 
-  const user = await getUserById(id);
+    if (!user) {
+      return res.status(404).json({ errors: ["user not found!"] });
+    }
 
-  if (user) {
     const activationLink = await createActivationLink({
       id: uuidv4(),
       userId: user.id,
       expirationDate: new Date(Date.now() + 3600 * 1000 * 2),
     });
 
-    await sendEmail(user.email, activationLink.id);
+    if (activationLink && (await sendEmail(user.email, activationLink.id))) {
+      await deleteActivationLinkById(activationLinkId);
+    }
 
     return res.status(200).json({ successes: ["email sent successfully!"] });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ errors: ["error occurred!"] });
   }
-
-  return res.status(404).json({ errors: ["user not found"] });
 };
