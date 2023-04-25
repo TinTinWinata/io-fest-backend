@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt, { Jwt, JwtPayload, VerifyErrors } from "jsonwebtoken";
 import { accessTokenSecret } from "../utils/constants";
 

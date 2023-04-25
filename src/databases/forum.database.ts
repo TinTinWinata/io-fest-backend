@@ -1,5 +1,5 @@
-import DBClient from "../../prisma/prisma.client";
 import { Forum } from "@prisma/client";
+import DBClient from "../../prisma/prisma.client";
 
 const prisma = DBClient.getInstance().prisma;
 
@@ -33,14 +33,15 @@ export const getNewestForumsPagination = async (skip: number, take: number) => {
       createdAt: "asc",
     },
     include: {
+      forumComments: true,
       creator: {
         select: {
           id: true,
-          email: false,
+          email: true,
           username: true,
           name: true,
           password: false,
-          isActive: false,
+          isActive: true,
           profilePicture: true,
           forums: false,
           activationLink: false,
@@ -60,14 +61,16 @@ export const getTopForumsPagination = async (skip: number, take: number) => {
       seen: "desc",
     },
     include: {
+      forumComments: true,
       creator: {
         select: {
           id: true,
-          email: false,
+          email: true,
+          role: true,
           username: true,
           name: true,
           password: false,
-          isActive: false,
+          isActive: true,
           profilePicture: true,
           forums: false,
           activationLink: false,
@@ -102,6 +105,7 @@ export const getForumById = async (id: string) => {
           username: true,
           name: true,
           password: false,
+          role: true,
           isActive: false,
           profilePicture: true,
           forums: false,
@@ -119,6 +123,7 @@ export const getForumById = async (id: string) => {
                   id: true,
                   email: false,
                   username: true,
+                  role: true,
                   name: true,
                   password: false,
                   isActive: false,
@@ -133,6 +138,7 @@ export const getForumById = async (id: string) => {
           commenter: {
             select: {
               id: true,
+              role: true,
               email: false,
               username: true,
               name: true,

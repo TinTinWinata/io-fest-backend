@@ -1,18 +1,25 @@
 import { Request, Response } from "express";
 import {
+  getAllRoles,
   getUserById as getUser,
   getUserByUsername,
-  updateProfilePicture as uProfilePicture,
   updateProfile as uProfile,
+  updateProfilePicture as uProfilePicture,
   updateRoleDoctor,
-  getAllRoles,
 } from "../databases/user.database";
 
 export const getUserById = async (req: Request, res: Response) => {
+
+};
+
+export const refetch = async (req: Request, res: Response) => {
   try {
-    const id: string = req.params.id;
+    const id = req.jwtPayload && req.jwtPayload.id;
     const user = await getUser(id);
     if (user) {
+      const data = {
+        user,
+      }
       return res.status(200).json(user);
     }
     return res.status(400).json({ errors: ["user not found"] });

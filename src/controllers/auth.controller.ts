@@ -1,37 +1,30 @@
-import jwt, { VerifyErrors } from "jsonwebtoken";
-import { v4 as uuidv4 } from "uuid";
 import { compare, hash } from "bcrypt";
 import { Request, Response } from "express";
+import jwt, { Jwt, JwtPayload, VerifyErrors } from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
+import { createActivationLink } from "../databases/activation.link.database";
 import {
   clearRefreshToken,
+  createUser,
   getUserByEmail,
   getUserByRefreshToken,
   getUserByUsername,
   updateRefreshToken,
 } from "../databases/user.database";
-import { createUser } from "../databases/user.database";
-import { accessTokenSecret, refreshTokenSecret } from "../utils/constants";
 import { sendEmail } from "../facades/helper";
-import { createActivationLink } from "../databases/activation.link.database";
-import { Jwt } from "jsonwebtoken";
-import { JwtPayload } from "jsonwebtoken";
+import { accessTokenSecret, refreshTokenSecret } from "../utils/constants";
 
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-
     const user = await getUserByEmail(email);
-
     if (!user) {
       return res.status(400).json({ errors: ["email not found!"] });
     }
-
     const match = await compare(password, user.password);
-
     if (!match) {
       return res.status(403).json({ errors: ["wrong credentials!"] });
     }
-
     if (!user.isActive) {
       return res
         .status(403)
@@ -97,7 +90,7 @@ export const register = async (req: Request, res: Response) => {
       password: hashedPassword,
       role: "Member",
       isActive: false,
-      profilePicture: "",
+      profilePicture: "/profile.webp",
       refreshToken: "",
     });
 

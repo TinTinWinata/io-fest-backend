@@ -1,22 +1,22 @@
-import { Request, Response } from "express";
-import {
-  createForum as cForum,
-  getNewestForumsPagination,
-  getTopForumsPagination,
-  incrementForumSeen,
-  updateForum as uForum,
-  deleteForum as dForum,
-  getForumById,
-} from "../databases/forum.database";
-import { v4 as uuidv4 } from "uuid";
 import { ForumAttachmentType } from "@prisma/client";
+import { Request, Response } from "express";
+import { v4 as uuidv4 } from "uuid";
 import {
   createForumAttachment,
   getAllForumAttachments,
 } from "../databases/forum.attachment.database";
+import {
+  createForum as cForum,
+  deleteForum as dForum,
+  getForumById,
+  getNewestForumsPagination,
+  getTopForumsPagination,
+  incrementForumSeen,
+  updateForum as uForum,
+} from "../databases/forum.database";
 import { getPaginationOptions } from "../facades/helper";
-import { forumPerPage } from "../utils/constants";
 import { PaginationOptions } from "../interfaces/interface";
+import { forumPerPage } from "../utils/constants";
 
 export const getForum = async (req: Request, res: Response) => {
   try {
@@ -113,14 +113,16 @@ export const createForum = async (req: Request, res: Response) => {
       return res.status(400).json({ errors: ["forum cannot be made!"] });
     }
 
-    if (!(req.files instanceof Array)) {
-      return res.status(400).json({ errors: ["error occurred"] });
+    if (req.files && !(req.files instanceof Array)) {
+      // Validate file must be array
+      return res.status(400).json({ errors: ["file must be array"] });
     }
-
+    
     const files = req.files;
-
-    const length = files.length;
-    for (let index = 0; index < length; index++) {
+    if(files){
+      // Validate if there's file in the form than create the attachment
+      const length = files.length;
+      for (let index = 0; index < length; index++) {
       const file = files.at(index);
       var type: ForumAttachmentType = "Video";
       if (!file) {
@@ -139,6 +141,7 @@ export const createForum = async (req: Request, res: Response) => {
         type: type,
       });
     }
+  }
 
     const forumAttachments = await getAllForumAttachments(forum.id);
 

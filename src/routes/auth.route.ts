@@ -1,11 +1,11 @@
 import { Router } from "express";
 import * as authController from "../controllers/auth.controller";
 import {
-  errorValidator,
-  bodyEmptyValidation,
   bodyEmailValidation,
+  bodyEmptyValidation,
   bodyLengthValidation,
   cookieEmptyValidation,
+  errorValidator,
 } from "../middlewares/validator.middleware";
 
 const router = Router();
