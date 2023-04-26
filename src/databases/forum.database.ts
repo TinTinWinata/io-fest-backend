@@ -25,6 +25,10 @@ export const getAllForum = async () => {
   return forums;
 };
 
+export const getCountForum = async ()=> {
+  return await prisma.forum.count();
+}
+
 export const getNewestForumsPagination = async (skip: number, take: number) => {
   const forums = await prisma.forum.findMany({
     skip: skip,

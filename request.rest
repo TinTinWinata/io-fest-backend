@@ -22,10 +22,8 @@ GET http://localhost:3000/users/daa7f3a2-f941-4a9e-87c0-be747c685eea
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImRhYTdmM2EyLWY5NDEtNGE5ZS04N2MwLWJlNzQ3YzY4NWVlYSIsImVtYWlsIjoicmVuYWNpZXJyQGdtYWlsLmNvbSIsImlhdCI6MTY4MTg3MzQyMywiZXhwIjoxNjgxODc0MzIzfQ.N2OljhVEBlqCBGTaEcEa_8P7FC9RwT35B_qu08RG7DA
 
 ###
-PATCH http://localhost:3000/activation-link/8d1d88de-be9d-4bbd-9ded-37aaff838fa0
+PATCH http://localhost:3000/activation-links/activate
 
-### request activation link
-POST  http://localhost:3000/activation-link/generate/daa7f3a2-f941-4a9e-87c0-be747c685eea
 
 ### request token
 GET http://localhost:3000/auth/token
@@ -34,7 +32,9 @@ GET http://localhost:3000/auth/token
 DELETE  http://localhost:3000/auth/logout
 
 ### get newest forum
-GET http://localhost:3000/forums/newest
+GET http://localhost:3000/forums/newest?page=3
+Content-Type: application/json
+
 
 ### Create Forum
 POST http://localhost:3000/forums/create

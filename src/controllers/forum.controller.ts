@@ -8,6 +8,7 @@ import {
 import {
   createForum as cForum,
   deleteForum as dForum,
+  getCountForum,
   getForumById,
   getNewestForumsPagination,
   getTopForumsPagination,
@@ -38,6 +39,7 @@ export const getForum = async (req: Request, res: Response) => {
 export const newestForumPagination = async (req: Request, res: Response) => {
   try {
     const { page } = req.query;
+    console.log('page : ', page)
 
     let p: number = 1;
 
@@ -55,7 +57,14 @@ export const newestForumPagination = async (req: Request, res: Response) => {
       paginationOptions.take
     );
 
-    res.status(200).json({ forums: forums });
+    const totalForums = await getCountForum();
+
+
+    res.status(200).json({ 
+      forums: forums, 
+      totalForums: totalForums,
+      perPage: forumPerPage
+    });
   } catch (error) {
     console.log(error);
     res.status(400).json({ errors: ["error occurred"] });
