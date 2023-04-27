@@ -2,8 +2,8 @@ import { Router } from "express";
 import * as activationLinkController from "../controllers/activation.link.controller";
 import {
   bodyEmptyValidation,
-  errorValidator,
   bodyUUIDValidation,
+  errorValidator,
 } from "../middlewares/validator.middleware";
 
 const router = Router();

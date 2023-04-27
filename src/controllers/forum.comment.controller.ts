@@ -8,9 +8,10 @@ import {
 export const createForumComment = async (req: Request, res: Response) => {
   try {
     const { forumId, comment } = req.body;
-
+    console.log('1')
     const userId = req.jwtPayload && req.jwtPayload.id;
-
+    console.log('2')
+    
     const forumComment = await cForumComment({
       id: uuidv4(),
       comment: comment,
@@ -18,15 +19,18 @@ export const createForumComment = async (req: Request, res: Response) => {
       userId: userId,
       createdAt: new Date(Date.now()),
     });
-
+    
+    console.log('3')
     if (!forumComment) {
       return res
-        .status(400)
-        .json({ errors: ["forum comment cannot be made!"] });
+      .status(400)
+      .json({ errors: ["forum comment cannot be made!"] });
     }
-
+    console.log('4')
+    
     return res.status(200).json({ successes: ["comment has been added!"] });
   } catch (error) {
+    console.log('5')
     console.log(error);
     res.status(400).json({ errors: ["error occurred"] });
   }

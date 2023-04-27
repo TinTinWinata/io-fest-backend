@@ -1,5 +1,5 @@
+import { User } from "@prisma/client";
 import DBClient from "../../prisma/prisma.client";
-import { User, UserRole } from "@prisma/client";
 import { deleteFile } from "../facades/helper";
 import { profilePictureRelativePath } from "../utils/constants";
 

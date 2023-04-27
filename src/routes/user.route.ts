@@ -1,13 +1,13 @@
 import { Router } from "express";
 import * as userController from "../controllers/user.controller";
+import { uploadProfilePicture } from "../middlewares/file.upload.middleware";
+import { isAdmin } from "../middlewares/role.middleware";
 import {
   bodyEmptyValidation,
   errorValidator,
   paramEmptyValidation,
   paramUUIDValidation,
 } from "../middlewares/validator.middleware";
-import { uploadProfilePicture } from "../middlewares/file.upload.middleware";
-import { isAdmin } from "../middlewares/role.middleware";
 
 const router = Router();
 
@@ -25,6 +25,11 @@ router.patch(
   errorValidator,
   userController.updateProfile
 );
+
+router.get(
+  "/fetch",
+  userController.refetch
+)
 
 router.patch(
   "/update-profile-picture",

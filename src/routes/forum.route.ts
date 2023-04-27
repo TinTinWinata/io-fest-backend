@@ -1,5 +1,8 @@
 import { Router } from "express";
 import * as forumController from "../controllers/forum.controller";
+import { isAuthenticated } from "../middlewares/auth.middleware";
+import { uploadForum } from "../middlewares/file.upload.middleware";
+import { isForumCreator } from "../middlewares/forum.middleware";
 import {
   bodyEmptyValidation,
   bodyUUIDValidation,
@@ -7,8 +10,6 @@ import {
   paramEmptyValidation,
   paramUUIDValidation,
 } from "../middlewares/validator.middleware";
-import { uploadForum } from "../middlewares/file.upload.middleware";
-import { isForumCreator } from "../middlewares/forum.middleware";
 
 const router = Router();
 
@@ -25,6 +26,7 @@ router.get(
 
 router.post(
   "/create",
+  isAuthenticated,
   uploadForum,
   bodyEmptyValidation(["title", "description"]),
   errorValidator,
@@ -42,6 +44,7 @@ router.patch(
 
 router.patch(
   "/update",
+  isAuthenticated,
   bodyEmptyValidation(["forumId", "title", "description"]),
   bodyUUIDValidation(["forumId"]),
   errorValidator,
@@ -51,6 +54,7 @@ router.patch(
 
 router.delete(
   "/delete",
+  isAuthenticated,
   bodyEmptyValidation(["forumId"]),
   bodyUUIDValidation(["forumId"]),
   errorValidator,

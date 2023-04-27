@@ -1,12 +1,13 @@
 import { Router } from "express";
 import * as forumCommentController from "../controllers/forum.comment.controller";
+import { isAuthenticated } from "../middlewares/auth.middleware";
+import { isDoctor } from "../middlewares/role.middleware";
 import {
   bodyEmptyValidation,
   errorValidator,
   paramEmptyValidation,
   paramUUIDValidation,
 } from "../middlewares/validator.middleware";
-import { isDoctor } from "../middlewares/role.middleware";
 
 const router = Router();
 
@@ -20,6 +21,7 @@ router.get(
 
 router.post(
   "/create",
+  isAuthenticated,
   isDoctor,
   bodyEmptyValidation(["forumId", "comment"]),
   errorValidator,
