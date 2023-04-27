@@ -1,14 +1,14 @@
-import nodemailer from "nodemailer";
-import fs from "fs";
-import { MailOptions } from "nodemailer/lib/sendmail-transport";
-import { PaginationOptions } from "../interfaces/interface";
+import fs from 'fs';
+import nodemailer from 'nodemailer';
+import { MailOptions } from 'nodemailer/lib/sendmail-transport';
+import { PaginationOptions } from '../interfaces/interface';
 
 export const sendEmail = async (
   email: string,
   activationLinkId: string
 ): Promise<boolean> => {
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    service: 'gmail',
     auth: {
       user: process.env.EMAIL_SENDER,
       pass: process.env.EMAIL_SENDER_PASSWORD,
@@ -18,7 +18,7 @@ export const sendEmail = async (
   const mailOptions: MailOptions = {
     from: process.env.EMAIL_SENDER,
     to: email,
-    subject: "CariTahu - Account Verification",
+    subject: 'CariTahu - Account Verification',
     html: `<div id=":15g" class="a3s aiL msg-2564905172801731076">
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tbody>
@@ -282,7 +282,7 @@ export const sendEmail = async (
     if (err) {
       console.log(err);
     } else {
-      console.log("Email sent: " + info.response);
+      console.log('Email sent: ' + info.response);
       return true;
     }
   });
@@ -290,7 +290,7 @@ export const sendEmail = async (
 };
 
 export const getFileExtension = (fileName: string) => {
-  return "." + fileName.split(".").pop();
+  return '.' + fileName.split('.').pop();
 };
 
 export const deleteFile = (filePath: string) => {
@@ -317,4 +317,9 @@ export const getPaginationOptions = (
   };
 
   return paginationOpt;
+};
+
+export const generateRandomString = (prefix: string): string => {
+  const randomNumber = Math.floor(Math.random() * 1000000);
+  return `${prefix}${randomNumber}`;
 };

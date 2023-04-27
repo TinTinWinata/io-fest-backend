@@ -24,9 +24,9 @@ router.post(
   bodyLengthValidation(["password"], [8], [16]),
   errorValidator,
   authController.register
-);
-router.delete(
-  "/logout",
+  );
+  router.delete(
+    "/logout",
   cookieEmptyValidation(["refreshToken"]),
   errorValidator,
   authController.logout
@@ -36,6 +36,12 @@ router.get(
   cookieEmptyValidation(["refreshToken"]),
   errorValidator,
   authController.refreshToken
-);
+  );
+  router.post(
+    "/login-google-token",
+    bodyEmptyValidation(["token"]),
+    errorValidator,
+    authController.loginGoogleToken
+)
 
 export default router;

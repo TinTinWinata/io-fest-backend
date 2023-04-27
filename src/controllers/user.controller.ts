@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import {
   getAllRoles,
   getUserById as getUser,
@@ -6,11 +6,9 @@ import {
   updateProfile as uProfile,
   updateProfilePicture as uProfilePicture,
   updateRoleDoctor,
-} from "../databases/user.database";
+} from '../databases/user.database';
 
-export const getUserById = async (req: Request, res: Response) => {
-
-};
+export const getUserById = async (req: Request, res: Response) => {};
 
 export const refetch = async (req: Request, res: Response) => {
   try {
@@ -19,13 +17,13 @@ export const refetch = async (req: Request, res: Response) => {
     if (user) {
       const data = {
         user,
-      }
+      };
       return res.status(200).json(user);
     }
-    return res.status(400).json({ errors: ["user not found"] });
+    return res.status(400).json({ errors: ['user not found'] });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ errors: ["error occurred!"] });
+    return res.status(400).json({ errors: ['error occurred!'] });
   }
 };
 
@@ -45,10 +43,10 @@ export const updateProfilePicture = async (req: Request, res: Response) => {
       return res.status(200).json(user);
     }
 
-    return res.status(400).json({ errors: ["user not found!"] });
+    return res.status(400).json({ errors: ['user not found!'] });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ errors: ["error occurred!"] });
+    return res.status(400).json({ errors: ['error occurred!'] });
   }
 };
 
@@ -61,19 +59,19 @@ export const updateProfile = async (req: Request, res: Response) => {
     const checkUsername = await getUserByUsername(username);
 
     if (checkUsername) {
-      res.status(400).json({ errors: ["username already taken!"] });
+      res.status(400).json({ errors: ['username already taken!'] });
     }
 
     const user = await uProfile(userId, username, name);
 
     if (!user) {
-      return res.status(400).json({ errors: ["user not found!"] });
+      return res.status(400).json({ errors: ['user not found!'] });
     }
 
     return res.status(200).json({ user: user });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ errors: ["error occurred!"] });
+    return res.status(400).json({ errors: ['error occurred!'] });
   }
 };
 
@@ -84,13 +82,13 @@ export const changeRole = async (req: Request, res: Response) => {
     const user = await updateRoleDoctor(userId);
 
     if (!user) {
-      res.status(400).json({ errors: ["user not found!"] });
+      res.status(400).json({ errors: ['user not found!'] });
     }
 
     return res.status(200).json({ user: user });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ errors: ["error occurred!"] });
+    return res.status(400).json({ errors: ['error occurred!'] });
   }
 };
 
@@ -103,6 +101,6 @@ export const adminPage = async (req: Request, res: Response) => {
       .json({ members: members, doctors: doctors, admins: admins });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ errors: ["error occurred!"] });
+    return res.status(400).json({ errors: ['error occurred!'] });
   }
 };

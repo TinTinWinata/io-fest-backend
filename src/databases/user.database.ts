@@ -1,7 +1,7 @@
-import { User } from "@prisma/client";
-import DBClient from "../../prisma/prisma.client";
-import { deleteFile } from "../facades/helper";
-import { profilePictureRelativePath } from "../utils/constants";
+import { User } from '@prisma/client';
+import DBClient from '../../prisma/prisma.client';
+import { deleteFile } from '../facades/helper';
+import { profilePictureRelativePath } from '../utils/constants';
 
 const prisma = DBClient.getInstance().prisma;
 
@@ -82,6 +82,24 @@ export const getUserByRefreshToken = async (refreshToken: string) => {
   return user;
 };
 
+export const isEmailExists = async (email: string): Promise<boolean> => {
+  const user = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  return !!user;
+};
+
+export const isUsernameExists = async (username: string): Promise<boolean> => {
+  const user = await prisma.user.findUnique({
+    where: {
+      username: username,
+    },
+  });
+  return !!user;
+};
+
 export const createUser = async (user: User) => {
   const result = await prisma.user.create({
     data: { ...user },
@@ -93,6 +111,26 @@ export const createUser = async (user: User) => {
       password: false,
       role: true,
       isActive: false,
+      profilePicture: true,
+      forums: true,
+      activationLink: false,
+      refreshToken: false,
+    },
+  });
+  return result;
+};
+
+export const createActiveUser = async (user: User) => {
+  const result = await prisma.user.create({
+    data: { ...user },
+    select: {
+      id: true,
+      email: true,
+      username: true,
+      name: true,
+      password: false,
+      role: true,
+      isActive: true,
       profilePicture: true,
       forums: true,
       activationLink: false,
@@ -152,7 +190,7 @@ export const clearRefreshToken = async (id: string) => {
   const user = await prisma.user.update({
     where: { id: id },
     data: {
-      refreshToken: "",
+      refreshToken: '',
     },
     select: {
       id: true,
@@ -206,7 +244,7 @@ export const updateProfilePicture = async (
   const prevUser = await getUserById(id);
 
   if (prevUser) {
-    if (prevUser.profilePicture !== "") {
+    if (prevUser.profilePicture !== '') {
       deleteFile(profilePictureRelativePath + prevUser.profilePicture);
     }
   }
@@ -237,7 +275,7 @@ export const updateRoleDoctor = async (id: string) => {
   const user = await prisma.user.update({
     where: { id: id },
     data: {
-      role: "Doctor",
+      role: 'Doctor',
     },
     select: {
       id: true,
@@ -259,19 +297,19 @@ export const updateRoleDoctor = async (id: string) => {
 export const getAllRoles = async () => {
   const members = await prisma.user.findMany({
     where: {
-      role: "Member",
+      role: 'Member',
     },
   });
 
   const doctors = await prisma.user.findMany({
     where: {
-      role: "Doctor",
+      role: 'Doctor',
     },
   });
 
   const admins = await prisma.user.findMany({
     where: {
-      role: "Admin",
+      role: 'Admin',
     },
   });
 
