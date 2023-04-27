@@ -3,7 +3,10 @@ import fs from "fs";
 import { MailOptions } from "nodemailer/lib/sendmail-transport";
 import { PaginationOptions } from "../interfaces/interface";
 
-export const sendEmail = async (email: string, activationLinkId: string) : Promise<boolean>=> {
+export const sendEmail = async (
+  email: string,
+  activationLinkId: string
+): Promise<boolean> => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {

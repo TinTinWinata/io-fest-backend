@@ -40,8 +40,7 @@ export const newestForumPagination = async (req: Request, res: Response) => {
     const { page } = req.query;
 
     let p: number = 1;
-
-    if (typeof page == "string" && page.match("^d+$")) {
+    if (typeof page == "string" && !isNaN(parseInt(page))) {
       p = parseInt(page);
     }
 
@@ -67,8 +66,7 @@ export const topForumPagination = async (req: Request, res: Response) => {
     const { page } = req.query;
 
     let p: number = 1;
-
-    if (typeof page == "string" && page.match("^d+$")) {
+    if (typeof page == "string" && !isNaN(parseInt(page))) {
       p = parseInt(page);
     }
 
