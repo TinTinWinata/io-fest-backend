@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express";
-import { checkForumCreator } from "../databases/forum.database";
+import { NextFunction, Request, Response } from 'express';
+import { checkForumCreator } from '../databases/forum.database';
 
 export const isForumCreator = async (
   req: Request,
@@ -11,18 +11,18 @@ export const isForumCreator = async (
     const userId = req.jwtPayload && req.jwtPayload.id;
 
     if (!userId) {
-      return res.status(400).json({ errors: "error occurred!" });
+      return res.status(400).json({ errors: 'error occurred!' });
     }
 
     const check = await checkForumCreator(forumId, userId);
 
     if (!check) {
-      return res.status(400).json({ errors: "you are not the forum creator!" });
+      return res.status(400).json({ errors: 'you are not the forum creator!' });
     }
 
     return next();
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ errors: ["error occurred!"] });
+    return res.status(400).json({ errors: ['error occurred!'] });
   }
 };

@@ -38,7 +38,7 @@ export const login = async (req: Request, res: Response) => {
       { id: user.id, email: user.email, role: user.role },
       accessTokenSecret,
       {
-        expiresIn: '15m',
+        expiresIn: '7d',
       }
     );
 
@@ -55,6 +55,8 @@ export const login = async (req: Request, res: Response) => {
     return res
       .cookie('refreshToken', refreshToken, {
         httpOnly: true,
+        sameSite: 'none',
+        secure: false,
         maxAge: 24 * 60 * 60 * 1000,
       })
       .status(200)
@@ -80,7 +82,7 @@ export const loginGoogleToken = async (req: Request, res: Response) => {
         { id: user.id, email: user.email, role: user.role },
         accessTokenSecret,
         {
-          expiresIn: '15m',
+          expiresIn: '7d',
         }
       );
 
@@ -116,7 +118,7 @@ export const loginGoogleToken = async (req: Request, res: Response) => {
         { id: user.id, email: user.email, role: user.role },
         accessTokenSecret,
         {
-          expiresIn: '15m',
+          expiresIn: '7d',
         }
       );
 
@@ -214,7 +216,7 @@ export const refreshToken = async (req: Request, res: Response) => {
             { id: user.id, email: user.email, role: user.role },
             accessTokenSecret,
             {
-              expiresIn: '15m',
+              expiresIn: '7d',
             }
           );
           res.status(200).json({ accessToken: accessToken });

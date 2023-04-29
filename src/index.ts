@@ -1,10 +1,10 @@
-import bodyParser from "body-parser";
-import compression from "compression";
-import cookieParser from "cookie-parser";
-import cors from "cors";
-import express, { Request, Response } from "express";
-import createError from "http-errors";
-import router from "./routes";
+import bodyParser from 'body-parser';
+import compression from 'compression';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express, { Request, Response } from 'express';
+import createError from 'http-errors';
+import router from './routes';
 
 declare global {
   namespace Express {
@@ -19,6 +19,7 @@ const app = express();
 
 app.use(
   cors({
+    origin: 'http://localhost:5173',
     credentials: true,
   })
 );
@@ -33,7 +34,7 @@ app.use(compression());
 app.use(cookieParser());
 app.use(express.json());
 
-app.use("/", router);
+app.use('/', router);
 
 app.use((req: Request, res: Response, next: Function) => {
   next(createError(404));
