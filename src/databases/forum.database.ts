@@ -1,5 +1,5 @@
-import { Forum } from "@prisma/client";
-import DBClient from "../../prisma/prisma.client";
+import { Forum } from '@prisma/client';
+import DBClient from '../../prisma/prisma.client';
 
 const prisma = DBClient.getInstance().prisma;
 
@@ -25,16 +25,34 @@ export const getAllForum = async () => {
   return forums;
 };
 
-export const getCountForum = async ()=> {
+export const getCountForum = async () => {
   return await prisma.forum.count();
-}
+};
 
-export const getNewestForumsPagination = async (skip: number, take: number) => {
+export const getNewestForumsPagination = async (
+  skip: number,
+  take: number,
+  forumSearch: string
+) => {
   const forums = await prisma.forum.findMany({
+    where: {
+      OR: [
+        {
+          title: {
+            contains: forumSearch,
+          },
+        },
+        {
+          description: {
+            contains: forumSearch,
+          },
+        },
+      ],
+    },
     skip: skip,
     take: take,
     orderBy: {
-      createdAt: "asc",
+      createdAt: 'asc',
     },
     include: {
       forumComments: true,
@@ -57,12 +75,30 @@ export const getNewestForumsPagination = async (skip: number, take: number) => {
   return forums;
 };
 
-export const getTopForumsPagination = async (skip: number, take: number) => {
+export const getTopForumsPagination = async (
+  skip: number,
+  take: number,
+  forumSearch: string
+) => {
   const forums = await prisma.forum.findMany({
+    where: {
+      OR: [
+        {
+          title: {
+            contains: forumSearch,
+          },
+        },
+        {
+          description: {
+            contains: forumSearch,
+          },
+        },
+      ],
+    },
     skip: skip,
     take: take,
     orderBy: {
-      seen: "desc",
+      seen: 'desc',
     },
     include: {
       forumComments: true,

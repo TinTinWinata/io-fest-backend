@@ -39,7 +39,12 @@ export const getForum = async (req: Request, res: Response) => {
 export const newestForumPagination = async (req: Request, res: Response) => {
   try {
     const { page } = req.query;
-    console.log('page : ', page);
+    let { search } = req.query;
+
+    if (search === undefined || search === null) {
+      search = '';
+    }
+    search = search?.toString();
 
     let p: number = 1;
     if (typeof page == 'string' && !isNaN(parseInt(page))) {
@@ -53,7 +58,8 @@ export const newestForumPagination = async (req: Request, res: Response) => {
 
     const forums = await getNewestForumsPagination(
       paginationOptions.skip,
-      paginationOptions.take
+      paginationOptions.take,
+      search
     );
 
     const totalForums = await getCountForum();
@@ -72,6 +78,15 @@ export const newestForumPagination = async (req: Request, res: Response) => {
 export const topForumPagination = async (req: Request, res: Response) => {
   try {
     const { page } = req.query;
+    let { search } = req.query;
+
+    if (search === undefined || search === null) {
+      search = '';
+      console.log('masuk!');
+    }
+    search = search?.toString();
+
+    console.log('search : ', search);
 
     let p: number = 1;
     if (typeof page == 'string' && !isNaN(parseInt(page))) {
@@ -85,7 +100,8 @@ export const topForumPagination = async (req: Request, res: Response) => {
 
     const forums = await getTopForumsPagination(
       paginationOptions.skip,
-      paginationOptions.take
+      paginationOptions.take,
+      search
     );
 
     res.status(200).json({ forums: forums });

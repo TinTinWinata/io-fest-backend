@@ -3,7 +3,6 @@ import { hash } from 'bcrypt';
 const prisma = new PrismaClient();
 async function main() {
   const saltRounds = 10;
-
   const testUser = await prisma.user.upsert({
     where: { email: 'test@gmail.com' },
     update: {},
