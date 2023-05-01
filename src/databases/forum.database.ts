@@ -6,6 +6,7 @@ const prisma = DBClient.getInstance().prisma;
 export const getAllForum = async () => {
   const forums = await prisma.forum.findMany({
     include: {
+      forumComments: true,
       creator: {
         select: {
           id: true,
@@ -52,7 +53,7 @@ export const getNewestForumsPagination = async (
     skip: skip,
     take: take,
     orderBy: {
-      createdAt: 'asc',
+      createdAt: 'desc',
     },
     include: {
       forumComments: true,

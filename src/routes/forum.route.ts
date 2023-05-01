@@ -3,6 +3,7 @@ import * as forumController from '../controllers/forum.controller';
 import { isAuthenticated } from '../middlewares/auth.middleware';
 import { uploadForum } from '../middlewares/file.upload.middleware';
 import { isForumCreator } from '../middlewares/forum.middleware';
+import { isAdmin } from '../middlewares/role.middleware';
 import {
   bodyEmptyValidation,
   bodyUUIDValidation,
@@ -22,6 +23,14 @@ router.get(
   paramUUIDValidation(['forumId']),
   errorValidator,
   forumController.getForum
+);
+
+router.get(
+  '/get-all',
+  isAuthenticated,
+  isAdmin,
+  errorValidator,
+  forumController.getAll
 );
 
 router.post(

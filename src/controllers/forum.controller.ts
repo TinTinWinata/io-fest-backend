@@ -8,6 +8,7 @@ import {
 import {
   createForum as cForum,
   deleteForum as dForum,
+  getAllForum,
   getCountForum,
   getForumById,
   getNewestForumsPagination,
@@ -75,6 +76,19 @@ export const newestForumPagination = async (req: Request, res: Response) => {
   }
 };
 
+export const getAll = async (req: Request, res: Response) => {
+  try {
+    const forums = await getAllForum();
+
+    res.status(200).json({
+      forums: forums,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ errors: ['error occurred'] });
+  }
+};
+
 export const topForumPagination = async (req: Request, res: Response) => {
   try {
     const { page } = req.query;
@@ -82,11 +96,8 @@ export const topForumPagination = async (req: Request, res: Response) => {
 
     if (search === undefined || search === null) {
       search = '';
-      console.log('masuk!');
     }
     search = search?.toString();
-
-    console.log('search : ', search);
 
     let p: number = 1;
     if (typeof page == 'string' && !isNaN(parseInt(page))) {
@@ -104,7 +115,13 @@ export const topForumPagination = async (req: Request, res: Response) => {
       search
     );
 
-    res.status(200).json({ forums: forums });
+    const totalForums = await getCountForum();
+
+    res.status(200).json({
+      forums: forums,
+      totalForums: totalForums,
+      perPage: forumPerPage,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).json({ errors: ['error occurred'] });
